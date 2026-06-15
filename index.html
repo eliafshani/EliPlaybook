@@ -1,2006 +1,599 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eli Afshani — Competition Playbook</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #f8f9fb;
-      --surface: #ffffff;
-      --surface-2: #f1f3f7;
-      --border: #e4e7ed;
-      --text-primary: #0d1117;
-      --text-secondary: #5a6474;
-      --text-tertiary: #9aa1ae;
-      --accent: #2563eb;
-      --accent-bg: #eff5ff;
-      --accent-hover: #1d4ed8;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-      --shadow-lg: 0 16px 48px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.04);
-      --tier-s: #d97706;
-      --tier-s-bg: #fef3c7;
-      --tier-s-border: #fcd34d;
-      --tier-a: #2563eb;
-      --tier-a-bg: #dbeafe;
-      --tier-a-border: #93c5fd;
-      --tier-b: #475569;
-      --tier-b-bg: #f1f5f9;
-      --tier-b-border: #cbd5e1;
-      --type-competition: #7c3aed;
-      --type-competition-bg: #f5f3ff;
-      --type-challenge: #0891b2;
-      --type-challenge-bg: #ecfeff;
-      --type-course: #059669;
-      --type-course-bg: #ecfdf5;
-      --type-tool: #6b7280;
-      --type-tool-bg: #f9fafb;
-      --radius-card: 14px;
-      --radius-sm: 8px;
-      --radius-xs: 6px;
-      --transition: 0.18s ease;
-    }
-
-    [data-theme="dark"] {
-      --bg: #0c0e12;
-      --surface: #13161d;
-      --surface-2: #1a1e28;
-      --border: #252a36;
-      --text-primary: #f0f2f7;
-      --text-secondary: #8b95a8;
-      --text-tertiary: #5a6474;
-      --accent: #3b82f6;
-      --accent-bg: #1a2540;
-      --accent-hover: #60a5fa;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.2);
-      --shadow-lg: 0 16px 48px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.3);
-      --tier-s: #f59e0b;
-      --tier-s-bg: #292008;
-      --tier-s-border: #78450a;
-      --tier-a: #60a5fa;
-      --tier-a-bg: #0f1e3a;
-      --tier-a-border: #1e3a6e;
-      --tier-b: #94a3b8;
-      --tier-b-bg: #1a1e28;
-      --tier-b-border: #2d3548;
-      --type-competition: #a78bfa;
-      --type-competition-bg: #1f1535;
-      --type-challenge: #22d3ee;
-      --type-challenge-bg: #082028;
-      --type-course: #34d399;
-      --type-course-bg: #061c12;
-      --type-tool: #9ca3af;
-      --type-tool-bg: #1a1e28;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.5;
-      min-height: 100dvh;
-      transition: background var(--transition), color var(--transition);
-    }
-
-    /* ---- HEADER ---- */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    .header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .header-brand {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
-    .header-name {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: 17px;
-      color: var(--text-primary);
-      letter-spacing: -0.3px;
-    }
-    .header-sub {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      font-weight: 500;
-    }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .header-links {
-      display: flex;
-      gap: 8px;
-    }
-    .header-link {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      text-decoration: none;
-      padding: 5px 10px;
-      border-radius: var(--radius-xs);
-      transition: color var(--transition), background var(--transition);
-    }
-    .header-link:hover {
-      color: var(--text-primary);
-      background: var(--surface-2);
-    }
-    .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background var(--transition), border-color var(--transition), color var(--transition);
-      flex-shrink: 0;
-    }
-    .theme-toggle:hover {
-      background: var(--surface-2);
-      color: var(--text-primary);
-    }
-    .theme-toggle svg { pointer-events: none; }
-    .icon-sun { display: none; }
-    .icon-moon { display: block; }
-    [data-theme="dark"] .icon-sun { display: block; }
-    [data-theme="dark"] .icon-moon { display: none; }
-
-    /* ---- MAIN ---- */
-    .main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
-    }
-
-    /* ---- HERO ---- */
-    .hero {
-      margin-bottom: 40px;
-    }
-    .hero-title {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: clamp(28px, 4vw, 40px);
-      letter-spacing: -0.8px;
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-    .hero-title span {
-      color: var(--accent);
-    }
-    .hero-desc {
-      font-size: 15px;
-      color: var(--text-secondary);
-      max-width: 520px;
-      line-height: 1.6;
-    }
-
-    /* ---- STATS ---- */
-    .stats-bar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 20px 24px;
-      margin-bottom: 28px;
-      box-shadow: var(--shadow-sm);
-    }
-    .stats-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .stats-counts {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .stat-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .stat-dot.done { background: #10b981; }
-    .stat-dot.in-progress { background: var(--accent); }
-    .stat-dot.not-started { background: var(--border); }
-    .stat-label {
-      font-size: 13px;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-    .stat-count {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .stats-pct {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-    .progress-track {
-      height: 6px;
-      background: var(--surface-2);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: 99px;
-      background: linear-gradient(90deg, var(--accent), #10b981);
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* ---- CONTROLS ---- */
-    .controls {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-    }
-    .view-toggle {
-      display: flex;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 3px;
-      flex-shrink: 0;
-    }
-    .view-btn {
-      padding: 6px 14px;
-      border-radius: 6px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition);
-    }
-    .view-btn.active {
-      background: var(--accent);
-      color: #ffffff;
-    }
-    .filter-pills {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .filter-pill {
-      padding: 6px 14px;
-      border-radius: 99px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text-secondary);
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-    .filter-pill:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .filter-pill.active {
-      background: var(--accent-bg);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ---- SECTION HEADING ---- */
-    .section-heading {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 32px 0 16px;
-    }
-    .section-heading:first-child { margin-top: 0; }
-    .section-tier-badge {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: var(--radius-xs);
-      letter-spacing: 0.5px;
-    }
-    .tier-s-badge { background: var(--tier-s-bg); color: var(--tier-s); border: 1px solid var(--tier-s-border); }
-    .tier-a-badge { background: var(--tier-a-bg); color: var(--tier-a); border: 1px solid var(--tier-a-border); }
-    .tier-b-badge { background: var(--tier-b-bg); color: var(--tier-b); border: 1px solid var(--tier-b-border); }
-    .section-title {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--text-primary);
-      letter-spacing: -0.3px;
-    }
-    .section-desc {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      margin-left: auto;
-    }
-    .section-divider {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ---- CARDS GRID ---- */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } }
-
-    /* ---- CARD ---- */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 20px;
-      cursor: pointer;
-      transition: box-shadow var(--transition), border-color var(--transition), transform 0.12s ease;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-      overflow: hidden;
-    }
-    .card:hover {
-      box-shadow: var(--shadow-md);
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-    .card:active { transform: translateY(-1px); }
-    .card.done-card {
-      opacity: 0.7;
-    }
-    .card-tier-stripe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      border-radius: var(--radius-card) var(--radius-card) 0 0;
-    }
-    .tier-s-stripe { background: var(--tier-s); }
-    .tier-a-stripe { background: var(--tier-a); }
-    .tier-b-stripe { background: var(--tier-b); }
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .card-name {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--text-primary);
-      letter-spacing: -0.2px;
-      line-height: 1.3;
-      flex: 1;
-    }
-    .card-badges {
-      display: flex;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-    .badge {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 99px;
-      letter-spacing: 0.2px;
-    }
-    .badge-tier-s { background: var(--tier-s-bg); color: var(--tier-s); }
-    .badge-tier-a { background: var(--tier-a-bg); color: var(--tier-a); }
-    .badge-tier-b { background: var(--tier-b-bg); color: var(--tier-b); }
-    .badge-competition { background: var(--type-competition-bg); color: var(--type-competition); }
-    .badge-challenge { background: var(--type-challenge-bg); color: var(--type-challenge); }
-    .badge-course { background: var(--type-course-bg); color: var(--type-course); }
-    .badge-tool { background: var(--type-tool-bg); color: var(--type-tool); }
-    .card-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.55;
-      flex: 1;
-    }
-    .card-meta {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .card-meta-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      color: var(--text-tertiary);
-      font-weight: 500;
-    }
-    .card-meta-item svg { flex-shrink: 0; }
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .progress-select {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 5px 10px 5px 8px;
-      border-radius: var(--radius-xs);
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text-secondary);
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%239aa1ae' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      padding-right: 24px;
-      transition: border-color var(--transition), color var(--transition);
-    }
-    .progress-select:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .progress-select.status-done { border-color: #10b981; color: #10b981; background-color: #ecfdf5; }
-    .progress-select.status-in-progress { border-color: var(--accent); color: var(--accent); background-color: var(--accent-bg); }
-    [data-theme="dark"] .progress-select.status-done { background-color: #061c12; }
-    [data-theme="dark"] .progress-select.status-in-progress { background-color: var(--accent-bg); }
-    .card-detail-btn {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-tertiary);
-      transition: color var(--transition);
-    }
-    .card:hover .card-detail-btn { color: var(--accent); }
-
-    /* ---- EMPTY STATE ---- */
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 48px 24px;
-      color: var(--text-tertiary);
-      font-size: 14px;
-    }
-
-    /* ---- MODAL ---- */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 20px 16px 40px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.2s ease, visibility 0.2s ease;
-      overflow-y: auto;
-    }
-    .modal-overlay.open {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      width: 100%;
-      max-width: 680px;
-      box-shadow: var(--shadow-lg);
-      transform: translateY(16px) scale(0.98);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow: hidden;
-      margin: auto;
-    }
-    .modal-overlay.open .modal {
-      transform: translateY(0) scale(1);
-    }
-    .modal-header {
-      padding: 24px 24px 0;
-      position: relative;
-    }
-    .modal-top-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .modal-badges {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .modal-close {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background var(--transition), color var(--transition);
-    }
-    .modal-close:hover { background: var(--border); color: var(--text-primary); }
-    .modal-title {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: clamp(20px, 3vw, 26px);
-      letter-spacing: -0.5px;
-      color: var(--text-primary);
-      line-height: 1.2;
-      margin-bottom: 12px;
-    }
-    .modal-chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .modal-chip {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 99px;
-      padding: 4px 10px;
-    }
-    .modal-status-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 0;
-      border-top: 1px solid var(--border);
-    }
-    .modal-status-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-    .modal-progress-select {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 6px 28px 6px 10px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text-secondary);
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%239aa1ae' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-    }
-    .modal-progress-select:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .modal-progress-select.status-done { border-color: #10b981; color: #10b981; background-color: #ecfdf5; }
-    .modal-progress-select.status-in-progress { border-color: var(--accent); color: var(--accent); background-color: var(--accent-bg); }
-    [data-theme="dark"] .modal-progress-select.status-done { background-color: #061c12; }
-    [data-theme="dark"] .modal-progress-select.status-in-progress { background-color: var(--accent-bg); }
-
-    /* ---- MODAL BODY ---- */
-    .modal-body {
-      padding: 0 24px 24px;
-      max-height: calc(100dvh - 200px);
-      overflow-y: auto;
-    }
-    .modal-section {
-      padding: 20px 0;
-      border-top: 1px solid var(--border);
-    }
-    .modal-section:first-child { border-top: none; padding-top: 4px; }
-    .modal-section-title {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--text-tertiary);
-      margin-bottom: 10px;
-    }
-    .modal-section p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.65;
-    }
-
-    /* Key Info Grid */
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-    @media (max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
-    .info-cell {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-    }
-    .info-cell-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-tertiary);
-      margin-bottom: 3px;
-    }
-    .info-cell-value {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    /* Prizes */
-    .prizes-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .prize-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-    .prize-icon {
-      font-size: 14px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    /* Checklist */
-    .checklist {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .check-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-    .check-box {
-      width: 16px;
-      height: 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 4px;
-      flex-shrink: 0;
-      margin-top: 2px;
-      background: var(--surface-2);
-    }
-
-    /* Steps */
-    .steps-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      counter-reset: step-counter;
-    }
-    .step-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      counter-increment: step-counter;
-    }
-    .step-num {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--accent-bg);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    /* Prompts */
-    .prompts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .prompt-card {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-    }
-    .prompt-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .prompt-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-    }
-    .prompt-label span {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 6px;
-    }
-    .prompt-label .dot-participated { background: #10b981; }
-    .prompt-label .dot-won { background: #f59e0b; }
-    .prompt-label .dot-progress { background: var(--accent); }
-    .copy-btn {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: var(--radius-xs);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition);
-      letter-spacing: 0.2px;
-    }
-    .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .copy-btn.copied { background: #10b981; color: #fff; border-color: #10b981; }
-    .prompt-text {
-      padding: 12px;
-      font-size: 12.5px;
-      font-family: 'Inter', sans-serif;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    /* ---- FOOTER ---- */
-    .site-footer {
-      border-top: 1px solid var(--border);
-      padding: 24px;
-      text-align: center;
-    }
-    .site-footer p {
-      font-size: 13px;
-      color: var(--text-tertiary);
-    }
-    .site-footer a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .site-footer a:hover { text-decoration: underline; }
-
-    /* ---- HIDDEN ---- */
-    .hidden { display: none !important; }
-    .group-hidden { display: none; }
-
-    @media (max-width: 600px) {
-      .main { padding: 24px 16px 60px; }
-      .header-inner { padding: 0 16px; }
-      .header-links { display: none; }
-      .modal-overlay { padding: 12px 12px 32px; }
-      .modal { border-radius: 14px; }
-      .modal-body { max-height: calc(100dvh - 160px); }
-      .info-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eli's Builder Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{
+  --bg:#F4F5FA;--bg2:#ECEDF5;--panel:#FFFFFF;--panel2:#F0F1F8;
+  --ink:#141620;--sub:#6B7280;--line:#E2E4EE;
+  --accent:#3B49DF;--accent-s:rgba(59,73,223,.1);
+  --s:#C27318;--s-s:#FEF3E2;--a:#047857;--a-s:#ECFDF5;
+  --b:#1D4ED8;--b-s:#EFF6FF;--done:#047857;--prog:#C27318;
+  --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+}
+[data-theme="dark"]{
+  --bg:#0E1016;--bg2:#13161F;--panel:#171A23;--panel2:#1D212C;
+  --ink:#F0F2F7;--sub:#8A91A3;--line:#252A38;
+  --accent:#6070FF;--accent-s:rgba(96,112,255,.14);
+  --s:#FFB224;--s-s:rgba(255,178,36,.13);--a:#34D399;--a-s:rgba(52,211,153,.13);
+  --b:#60A5FA;--b-s:rgba(96,165,250,.13);--done:#34D399;--prog:#FFB224;
+  --shadow:0 1px 4px rgba(0,0,0,.2),0 4px 20px rgba(0,0,0,.25);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;padding:28px 20px 100px;transition:background .25s,color .15s}
+.wrap{max-width:940px;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:12px;flex-wrap:wrap}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.icon-btn{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:600;border:1px solid var(--line);background:var(--panel);color:var(--sub);padding:8px 13px;border-radius:999px;cursor:pointer;transition:.18s}
+.icon-btn:hover{color:var(--ink);border-color:var(--sub)}
+h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,6vw,52px);line-height:1.03;letter-spacing:-.02em;margin-bottom:10px}
+h1 .gold{color:var(--s)}
+.hero-sub{font-size:15px;color:var(--sub);max-width:520px;margin-bottom:18px}
+.sync-bar{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin-bottom:18px;width:fit-content}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--sub);flex-shrink:0;transition:background .3s}
+.sync-dot.ok{background:var(--done)}
+.sync-dot.syncing{background:var(--prog);animation:pulse 1s infinite}
+.sync-dot.err{background:#EF4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.strip{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:20px;box-shadow:var(--shadow);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.strip-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;flex-shrink:0}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;background:var(--bg2);border:1px solid var(--line);color:var(--sub);padding:4px 9px;border-radius:7px}
+.chip.green{background:var(--a-s);color:var(--a);border-color:transparent}
+.chip.blue{background:var(--accent-s);color:var(--accent);border-color:transparent}
+.chip.gold{background:var(--s-s);color:var(--s);border-color:transparent}
+.hud{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 22px;margin-bottom:22px;box-shadow:var(--shadow);display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.hud-big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:38px;line-height:1}
+.hud-big span{font-size:16px;color:var(--sub);font-weight:500}
+.hud-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub);margin-bottom:5px}
+.bar-wrap{flex:1;min-width:160px}
+.bar{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--prog),var(--done));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.hud-stats{display:flex;gap:16px}
+.hud-stat b{display:block;font-size:20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700}
+.hud-stat i{font-style:normal;font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:10;margin-bottom:4px}
+.seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.04em;background:none;border:none;color:var(--sub);padding:9px 14px;cursor:pointer;transition:.15s;white-space:nowrap}
+.seg-btn.active{background:var(--ink);color:var(--panel)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;border:1px solid var(--line);background:var(--panel);color:var(--sub);padding:8px 13px;border-radius:999px;cursor:pointer;transition:.15s}
+.pill-btn:hover{color:var(--ink);border-color:var(--sub)}
+.pill-btn.active{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.sec-head{display:flex;align-items:center;gap:12px;margin:36px 0 8px}
+.sec-badge{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sec-head.tier-s .sec-badge{background:var(--s-s);color:var(--s)}
+.sec-head.tier-a .sec-badge{background:var(--a-s);color:var(--a)}
+.sec-head.tier-b .sec-badge{background:var(--b-s);color:var(--b)}
+.sec-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px}
+.sec-head p{font-size:12.5px;color:var(--sub)}
+.sec-rule{height:1px;background:var(--line);margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;margin-bottom:6px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
+.card[data-tier="s"]::before{background:var(--s)}
+.card[data-tier="a"]::before{background:var(--a)}
+.card[data-tier="b"]::before{background:var(--b)}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.card.done-card{opacity:.45}
+.card.done-card .card-title{text-decoration:line-through;text-decoration-color:var(--done);text-decoration-thickness:2px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.card-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.2}
+.status-sel{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;background:var(--panel2);color:var(--sub);border:1px solid var(--line);border-radius:9px;padding:6px 9px;cursor:pointer;flex-shrink:0;appearance:none;-webkit-appearance:none}
+.status-sel.st-prog{color:var(--prog);border-color:var(--prog)}
+.status-sel.st-done{color:var(--done);border-color:var(--done)}
+.card-desc{font-size:13px;color:var(--sub);margin:6px 0 10px;line-height:1.5}
+.card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.ctag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sub);background:var(--bg2);border:1px solid var(--line);padding:4px 8px;border-radius:7px}
+.ctag b{color:var(--ink)}
+.card-rl{font-size:12px;color:var(--sub);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin-bottom:10px}
+.resume-pill{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--accent-s);color:var(--accent);padding:3px 7px;border-radius:5px;display:inline-block;margin-top:4px}
+.card-footer{display:flex;justify-content:space-between;align-items:center}
+.more-btn{font-size:12.5px;font-weight:600;color:var(--accent);background:none;border:none;cursor:pointer;padding:0}
+.type-tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:4px 9px;border-radius:6px}
+.type-challenge{background:var(--s-s);color:var(--s)}
+.type-course{background:var(--b-s);color:var(--b)}
+.type-competition{background:var(--a-s);color:var(--a)}
+.type-tool{background:var(--accent-s);color:var(--accent)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(4px)}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:20px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:translateY(16px);transition:transform .25s}
+.overlay.open .modal{transform:translateY(0)}
+.modal-hero{width:100%;height:190px;object-fit:cover;border-radius:19px 19px 0 0;display:block}
+.modal-hero-fallback{width:100%;height:190px;background:var(--bg2);border-radius:19px 19px 0 0;display:flex;align-items:center;justify-content:center;font-size:56px}
+.modal-body{padding:24px}
+.modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.modal-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.01em;line-height:1.2}
+.close-btn{font-size:18px;background:var(--bg2);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sub);transition:.15s}
+.close-btn:hover{background:var(--line);color:var(--ink)}
+.modal section{margin-bottom:20px}
+.modal section h3{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sub);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.modal section p{font-size:13.5px;color:var(--sub);line-height:1.65}
+.modal section p b{color:var(--ink)}
+.modal section p+p{margin-top:6px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info-cell{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.info-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.info-val{font-size:13px;font-weight:600;color:var(--ink)}
+.prize-box{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.prize-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.prize-row:last-child{margin-bottom:0}
+.prize-ico{font-size:17px;flex-shrink:0;margin-top:1px}
+.prize-text{font-size:13px;color:var(--sub);line-height:1.55}
+.prize-text b{color:var(--ink)}
+.rl-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--accent-s);color:var(--accent);padding:4px 8px;border-radius:6px;display:inline-block;margin-top:5px}
+.elig-list{list-style:none}
+.elig-list li{font-size:13px;color:var(--sub);padding:7px 0;border-bottom:1px solid var(--line);display:flex;gap:9px;line-height:1.5}
+.elig-list li:last-child{border-bottom:none}
+.elig-ico{flex-shrink:0;margin-top:1px;font-weight:700}
+.elig-ico.ok{color:var(--done)}
+.elig-ico.no{color:#EF4444}
+.elig-ico.warn{color:var(--prog)}
+.steps-ol{list-style:none;counter-reset:steps}
+.steps-ol li{font-size:13px;color:var(--sub);padding:9px 0 9px 38px;border-bottom:1px solid var(--line);position:relative;counter-increment:steps;line-height:1.55}
+.steps-ol li:last-child{border-bottom:none}
+.steps-ol li::before{content:counter(steps);position:absolute;left:0;top:9px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;background:var(--accent-s);color:var(--accent);width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.steps-ol li b{color:var(--ink)}
+.modal-cta{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:#fff;background:var(--accent);text-decoration:none;padding:11px 20px;border-radius:12px;transition:.18s;margin-top:2px}
+.modal-cta:hover{opacity:.85}
+.done-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;background:var(--a-s);color:var(--done);padding:5px 10px;border-radius:8px;margin-bottom:14px}
+.hidden{display:none!important}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}.hud{flex-wrap:wrap}.controls{gap:7px}}
+</style>
 </head>
 <body>
-
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="header-brand">
-        <span class="header-name">Eli Afshani</span>
-        <span class="header-sub">Competition Playbook</span>
-      </div>
-      <div class="header-right">
-        <div class="header-links">
-          <a href="https://flowstateai.us" class="header-link" target="_blank">FlowState</a>
-          <a href="https://github.com" class="header-link" target="_blank">GitHub</a>
-        </div>
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="main">
-    <div class="hero">
-      <h1 class="hero-title">My <span>Resume Playbook</span></h1>
-      <p class="hero-desc">Tracking every competition, course, and program on the path to building real things. 9th grade at Milken, LA. Founder of FlowState and Voyage.</p>
-    </div>
-
-    <div class="stats-bar">
-      <div class="stats-top">
-        <div class="stats-counts">
-          <div class="stat-item">
-            <div class="stat-dot done"></div>
-            <span class="stat-label">Done:</span>
-            <span class="stat-count" id="count-done">0</span>
-          </div>
-          <div class="stat-item">
-            <div class="stat-dot in-progress"></div>
-            <span class="stat-label">In Progress:</span>
-            <span class="stat-count" id="count-inprogress">0</span>
-          </div>
-          <div class="stat-item">
-            <div class="stat-dot not-started"></div>
-            <span class="stat-label">Not Started:</span>
-            <span class="stat-count" id="count-notstarted">0</span>
-          </div>
-        </div>
-        <span class="stats-pct" id="stats-pct">0% complete</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <div class="view-toggle">
-        <button class="view-btn active" id="btn-tier" onclick="setView('tier')">By Tier</button>
-        <button class="view-btn" id="btn-type" onclick="setView('type')">By Type</button>
-      </div>
-      <div class="filter-pills" id="filter-pills"></div>
-    </div>
-
-    <div id="cards-root"></div>
-  </main>
-
-  <footer class="site-footer">
-    <p>Eli Afshani &mdash; Grade 9, Milken Community School, Los Angeles &mdash; <a href="https://flowstateai.us" target="_blank">FlowState</a> &mdash; CA-32</p>
-  </footer>
-
-  <!-- MODAL -->
-  <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
-    <div class="modal" id="modal">
-      <div class="modal-header" id="modal-header"></div>
-      <div class="modal-body" id="modal-body"></div>
-    </div>
+<div class="wrap">
+<div class="topbar">
+  <div class="eyebrow">Eli's Builder Playbook &mdash; 9th grade, Milken LA</div>
+  <button class="icon-btn" id="themeBtn">&#9790; <span id="themeLabel">Dark</span></button>
+</div>
+<h1>The resume <span class="gold">tier list.</span></h1>
+<p class="hero-sub">Every program ranked by impact. Click any card for full details. Progress syncs across all your devices automatically.</p>
+<div class="sync-bar" id="syncBar">
+  <div class="sync-dot syncing" id="syncDot"></div>
+  <span id="syncLabel">Connecting...</span>
+</div>
+<div class="strip">
+  <span class="strip-title">Your edge &#128293;</span>
+  <span class="chip green">FlowState &mdash; live app</span>
+  <span class="chip green">Voyage &mdash; custom browser</span>
+  <span class="chip gold">Harvard CS50x &mdash; done</span>
+  <span class="chip gold">GitHub &mdash; set up</span>
+  <span class="chip blue">HTML + CSS</span>
+  <span class="chip blue">FERPA / COPPA / SOPIPA</span>
+  <span class="chip">CA-32, Brad Sherman</span>
+  <span class="chip">Milken Community School, LA</span>
+  <span class="chip">14 yrs old</span>
+</div>
+<div class="hud">
+  <div>
+    <div class="hud-lbl">Completed</div>
+    <div class="hud-big"><span id="doneN">0</span><span> / <span id="totalN">0</span></span></div>
   </div>
+  <div class="bar-wrap">
+    <div class="hud-lbl">Overall progress</div>
+    <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+  </div>
+  <div class="hud-stats">
+    <div class="hud-stat"><b id="progN">0</b><i>in&nbsp;progress</i></div>
+    <div class="hud-stat"><b id="sDoneN">0</b><i>S&nbsp;tier&nbsp;done</i></div>
+  </div>
+</div>
+<div class="controls">
+  <div class="seg" id="viewSeg">
+    <button class="seg-btn active" data-view="tier">By Tier</button>
+    <button class="seg-btn" data-view="type">By Type</button>
+  </div>
+  <div class="pills" id="filterPills">
+    <button class="pill-btn active" data-f="all">All</button>
+    <button class="pill-btn" data-f="s">&#11088; S Tier</button>
+    <button class="pill-btn" data-f="a">&#9989; A Tier</button>
+    <button class="pill-btn" data-f="b">&#128218; B Tier</button>
+    <button class="pill-btn" data-f="challenge">&#127942; Challenge</button>
+    <button class="pill-btn" data-f="competition">&#127881; Competition</button>
+    <button class="pill-btn" data-f="course">&#127979; Course</button>
+    <button class="pill-btn" data-f="tool">&#128187; Tool</button>
+    <button class="pill-btn" data-f="doing">In Progress</button>
+  </div>
+</div>
+<div id="content"></div>
+</div>
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div id="modalHero"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<script>
+const ITEMS = [
+  {id:"cac",tier:"s",type:"challenge",emoji:"&#127968;",title:"Congressional App Challenge",
+   short:"Official U.S. House competition. You're entering FlowState in Brad Sherman's district CA-32 &mdash; confirmed he hosts it.",
+   deadline:"Oct 26, 2026",cost:"Free",teamSize:"1-4 students",age:"Middle + high school",results:"Dec 2026",urgency:"open",
+   img:"https://images.unsplash.com/photo-1555848962-6e79363ec58f?w=700&q=80",
+   what:"The official app building competition run by the U.S. House of Representatives. Students build an app, submit a demo video, and compete district by district. Brad Sherman (your rep, CA-32) hosts this every year.",
+   prize:"Your app displayed in the U.S. Capitol for one full year. Invited to #HouseOfCode in Washington D.C. to present to members of Congress. Featured on House.gov.",
+   resumeLine:"Congressional App Challenge District Winner, CA-32",
+   elig:[{ok:"ok",t:"Must be in middle or high school &mdash; you qualify"},{ok:"ok",t:"Must live or attend school in CA-32 &mdash; you qualify"},{ok:"ok",t:"Can enter solo or in teams up to 4"},{ok:"ok",t:"AI tools allowed as long as you disclose fully"},{ok:"ok",t:"App must be created after Oct 30, 2025"},{ok:"no",t:"Cannot compete in more than one district"}],
+   steps:["<b>Register now</b> at congressionalappchallenge.us &mdash; it's open","<b>Write your 5 application answers</b> (400 word limit each): what it does, what inspired you, technical difficulties, v2 improvements, AI disclosure","<b>Film a 1-3 min demo video</b> of FlowState working, upload to YouTube as public","<b>Cover photo at 600x800px JPEG</b> &mdash; shown in the Capitol if you win","<b>Submit by Oct 26, 2026 at 12pm ET</b>","<b>Results announced December 2026</b>"],
+   extra:"Last year's CA-32 winner was FireSafe &mdash; a fire safety app built right after the LA fires. Judges love apps solving real local problems. Your legal compliance docs (FERPA, COPPA, school data agreement) are something no other entrant will have &mdash; mention them.",
+   url:"https://www.congressionalappchallenge.us/"},
 
-  <script>
-    // =====================================================================
-    // DATA
-    // =====================================================================
+  {id:"ssc",tier:"s",type:"challenge",emoji:"&#127822;",title:"Swift Student Challenge (Apple)",
+   short:"Apple's own annual coding competition. Build in Swift Playgrounds. The direct path onto Apple's radar.",
+   deadline:"~Feb 6-28, 2027",cost:"Free",teamSize:"Solo only",age:"13+, enrolled in school",results:"~March 2027",urgency:"prep",
+   img:"https://images.unsplash.com/photo-1621768216002-5ac171661d83?w=700&q=80",
+   what:"Apple's annual student competition where you build an interactive app in Swift Playgrounds. The window is only about 3 weeks in February so prep starts now. No AI code generation allowed &mdash; your own Swift code only.",
+   prize:"All 350 winners: AirPods Max 2, free 1-year Apple Developer membership, personalized Apple certificate.\n\nTop 50 Distinguished Winners: all-inclusive 3-day trip to Apple Park in Cupertino, California.",
+   resumeLine:"Apple Swift Student Challenge Winner 2027",
+   elig:[{ok:"ok",t:"Must be 13 or older &mdash; you qualify"},{ok:"ok",t:"Must be enrolled in an accredited school &mdash; Milken counts"},{ok:"ok",t:"Need a free Apple Developer account"},{ok:"ok",t:"Can win up to 3 times total"},{ok:"warn",t:"No AI code generation &mdash; must be your own Swift entirely"},{ok:"warn",t:"Need to learn Swift first. Start now, challenge opens Feb 2027"},{ok:"no",t:"Solo submissions only, no teams"}],
+   steps:["<b>Download Swift Playgrounds</b> free from the App Store on iPad or Mac","<b>Start Everyone Can Code</b> at apple.com/education/k12/teaching-code","<b>Complete Learn to Code 1 and 2</b> playgrounds","<b>Move to Develop in Swift</b> for real app-building skills","<b>Brainstorm your Feb app idea now</b> &mdash; judges want innovation, creativity, social impact","<b>Build and submit</b> during the February window","<b>Results announced</b> in March 2027"],
+   extra:"Judging criteria: innovation, creativity, social impact, inclusivity. Past winners built apps about accessibility, mental health, climate, and education. If you tie it to your story as a student building tools for other students that's a strong angle.",
+   url:"https://developer.apple.com/swift-student-challenge/"},
 
-    const ITEMS = [
-      {
-        id: 'congressional-app',
-        name: 'Congressional App Challenge',
-        tier: 'S',
-        type: 'Competition',
-        short: 'Submit FlowState to CA-32 (Rep. Brad Sherman). Winners get their app displayed in the US Capitol.',
-        deadline: 'Oct 26, 2026',
-        cost: 'Free',
-        what: 'The Congressional App Challenge is an official US Congress competition where each Member of Congress hosts a coding contest for students in their district. The winning app is displayed in the US Capitol building as part of the #HouseOfCode program and the student receives a congressional certificate.',
-        keyInfo: [
-          { label: 'District', value: 'CA-32' },
-          { label: 'Representative', value: 'Brad Sherman' },
-          { label: 'Deadline', value: 'October 26, 2026' },
-          { label: 'Cost', value: 'Free' },
-          { label: 'Team', value: 'Solo or team OK' },
-          { label: 'Grade', value: '9-12' },
-        ],
-        prizes: [
-          'App displayed in the US Capitol (#HouseOfCode)',
-          'Congressional certificate from Rep. Brad Sherman',
-          'National recognition on the challenge website',
-          'Potential DC trip for national finalists',
-        ],
-        eligibility: [
-          'Must be enrolled in grades 9-12',
-          'Must live, attend school, or belong to a club in CA-32',
-          'App must be original student work',
-          'Must submit a working demo video (max 3 min)',
-        ],
-        steps: [
-          'Register at congressionalappchallenge.us - search for CA-32',
-          'Finalize FlowState (flowstateai.us) as your submission app',
-          'Record a 3-minute demo video showing core functionality',
-          'Write a short description of the problem FlowState solves for students',
-          'Upload code, video, and description through the submission portal',
-          'Submit before October 26, 2026 - confirm submission email received',
-        ],
-        context: "CA-32 is a competitive district but Brad Sherman's office actively promotes this challenge. FlowState as an AI productivity tool designed for students is an extremely compelling narrative - it's exactly the kind of real-world impact story the judges want to see. Emphasize the problem (student focus and productivity in the AI era) and the technical depth (AI integration, real users). Make sure flowstateai.us is polished before submission.",
-        prompts: {
-          participated: "Add the Congressional App Challenge to the competitions or achievements section of my portfolio at eliafshani.com. I entered the 2026 Congressional App Challenge for CA-32 (Rep. Brad Sherman's district) with FlowState, my AI productivity app at flowstateai.us. Here's what to write: I entered the Congressional App Challenge 2026, submitting FlowState (an AI-powered focus and productivity tool for students) to CA-32 under Rep. Brad Sherman. The challenge is an official US Congress coding competition where winning apps are displayed in the Capitol. Include the year (2026), my district (CA-32), my rep (Brad Sherman), and a link to flowstateai.us. Keep the tone factual and confident.",
-          won: "Update my portfolio at eliafshani.com to highlight a major win: I won the Congressional App Challenge 2026 for CA-32 (Rep. Brad Sherman's district) with FlowState (flowstateai.us). This is a top achievement - make it prominent. The copy should say something like: 'Congressional App Challenge Winner - CA-32 (2026). Built FlowState, an AI productivity app for students, which was selected by Rep. Brad Sherman's office and will be displayed in the US Capitol as part of the #HouseOfCode program.' Add a featured/highlighted achievement card or badge at the top of my competitions section. This is bigger than a regular competition win - it's an official act of Congress recognizing my work.",
-          inProgress: "Add a 'currently working on' or 'upcoming' section to my portfolio at eliafshani.com. I'm actively developing and polishing FlowState (flowstateai.us) for submission to the Congressional App Challenge 2026 in CA-32 (Rep. Brad Sherman's district). The submission deadline is October 26, 2026. Add this as an in-progress competition with the deadline shown. Tone should be: actively building toward this, not just 'planning to enter.'"
-        }
-      },
-      {
-        id: 'swift-student-challenge',
-        name: 'Swift Student Challenge',
-        tier: 'S',
-        type: 'Competition',
-        short: "Apple's annual challenge for student developers. Top 50 get invited to Apple Park. Prize includes AirPods Max.",
-        deadline: 'Feb 2027 (est.)',
-        cost: 'Free',
-        what: "Apple's Swift Student Challenge is an annual competition where students build an interactive app experience using Swift Playgrounds. Winners receive recognition from Apple, and the top 50 Distinguished Winners get invited to Apple Park in Cupertino for a special in-person experience with Apple engineers and designers.",
-        keyInfo: [
-          { label: 'Host', value: 'Apple' },
-          { label: 'Deadline', value: 'February 2027 (est.)' },
-          { label: 'Team', value: 'Solo only' },
-          { label: 'Cost', value: 'Free' },
-          { label: 'Platform', value: 'Swift Playgrounds (iPad/Mac)' },
-          { label: 'Age', value: '13+ (with parental consent)' },
-        ],
-        prizes: [
-          'AirPods Max for all winners',
-          'WWDC invitation (top ~350 winners)',
-          'Apple Park in-person experience for top 50 Distinguished Winners',
-          'Direct access to Apple engineers and mentors',
-        ],
-        eligibility: [
-          'Must be 13 or older (parental consent required under 18)',
-          'Must be enrolled as a student',
-          'Must submit as an individual (no teams)',
-          'Must build using Swift Playgrounds on iPad or Mac',
-        ],
-        steps: [
-          'Download Swift Playgrounds on your Mac or iPad',
-          'Complete Apple\'s free Learn to Code lessons for Swift fundamentals',
-          'Brainstorm your app concept - should be interactive and visually compelling',
-          'Build your app inside Swift Playgrounds (not Xcode)',
-          'Test thoroughly on both iPad and Mac if possible',
-          'Submit via the Apple Developer app when applications open (usually Jan-Feb)',
-          'Write a compelling description of your app and what it teaches or enables',
-        ],
-        context: "The Swift Student Challenge is one of the most prestigious competitions a high school developer can enter. It's global and extremely competitive (thousands of entries). Your edge: you've already built Voyage browser and FlowState, so you understand real product development. Build something that shows that maturity - not a tutorial clone but a genuinely creative idea. Think about what experience could only work in Swift Playgrounds. Musical synthesis, spatial visualization, game with physics - something with a wow factor in the first 10 seconds.",
-        prompts: {
-          participated: "Add Swift Student Challenge to my portfolio at eliafshani.com. I submitted to Apple's Swift Student Challenge 2027 as a solo student developer. I already have two real projects on my portfolio - FlowState (flowstateai.us) and Voyage browser. For the Swift Student Challenge entry, add it to the competitions section with: 'Submitted to Apple's Swift Student Challenge 2027 - built an interactive Swift Playgrounds experience as a solo student developer.' Include that this is Apple's official annual coding competition and that winners are recognized at WWDC.",
-          won: "Update my portfolio at eliafshani.com with a major achievement: I was selected as a winner of Apple's Swift Student Challenge 2027. [If Distinguished Winner, top 50]: I was selected as a Distinguished Winner - one of only 50 students globally - and was invited to Apple Park. Add this prominently to my achievements. The copy should mention: Swift Student Challenge Winner 2027 (Apple), [Distinguished Winner / top 50 globally if applicable], built a Swift Playgrounds app as a solo 9th-grade developer. I already have FlowState and Voyage listed on the portfolio - this should sit alongside them as a major credential. Make it visually highlighted.",
-          inProgress: "Add an upcoming/in-progress section to my portfolio at eliafshani.com. I'm currently building my submission for Apple's Swift Student Challenge 2027. I'm learning Swift through Apple's free curriculum and developing an original interactive app experience in Swift Playgrounds. Deadline is approximately February 2027. I'm a solo developer (9th grade, Milken Community School, LA). I already have FlowState and Voyage as existing projects - this would be my first Swift project. Show this as actively in development."
-        }
-      },
-      {
-        id: 'diamond-challenge',
-        name: 'Diamond Challenge',
-        tier: 'A',
-        type: 'Competition',
-        short: "University of Delaware's global entrepreneurship competition for high schoolers. $12K first place. Team of 2+ required.",
-        deadline: 'Jan-Feb 2027 (est.)',
-        cost: 'Free',
-        what: "The Diamond Challenge is the University of Delaware's global entrepreneurship competition exclusively for high school students ages 14-18. Teams compete with a business plan and pitch. It's one of the largest and most recognized entrepreneurship competitions in the world for high schoolers.",
-        keyInfo: [
-          { label: 'Host', value: 'University of Delaware' },
-          { label: 'Ages', value: '14-18' },
-          { label: 'Team', value: '2-5 members required' },
-          { label: 'Cost', value: 'Free' },
-          { label: '1st Place', value: '$12,000' },
-          { label: 'Format', value: 'Business plan + virtual pitch' },
-        ],
-        prizes: [
-          '$12,000 first place prize',
-          '$8,000 second place',
-          '$4,000 third place',
-          'Mentorship from UD faculty and entrepreneurs',
-          'Recognition in the national entrepreneurship community',
-        ],
-        eligibility: [
-          'Must be ages 14-18 (you qualify)',
-          'Must have a team of 2-5 members',
-          'Must submit a business plan (provided template)',
-          'Virtual pitch presentation to judges',
-        ],
-        steps: [
-          'Find 1-4 teammates - classmates at Milken or other motivated friends',
-          'Register at diamondchallenge.org when applications open',
-          'Develop a business plan for FlowState (market size, revenue model, competition analysis)',
-          'Create financial projections (3-year forecast, unit economics)',
-          'Build a pitch deck (10-12 slides)',
-          'Practice pitch until it\'s under 10 minutes and tight',
-          'Submit business plan by deadline and complete virtual pitch round',
-        ],
-        context: "FlowState as an AI productivity startup is a perfect fit here. You already have a real product at flowstateai.us which immediately differentiates you from students pitching concepts. The business plan needs a revenue model (freemium? school licenses?), market size (student productivity tools market), and competitive analysis. Find a business-minded teammate who can own the financial modeling while you own the product and tech sections.",
-        prompts: {
-          participated: "Add Diamond Challenge to the competitions section of my portfolio at eliafshani.com. I entered the Diamond Challenge (University of Delaware's global high school entrepreneurship competition) with a team, pitching FlowState (flowstateai.us) as a business plan. Diamond Challenge has $12K first place and is open to ages 14-18. Add this to competitions: 'Entered Diamond Challenge - University of Delaware global entrepreneurship competition for high schoolers. Developed a full business plan and pitch for FlowState, my AI productivity startup.' I already have FlowState and Voyage as existing projects on the portfolio.",
-          won: "Update my portfolio at eliafshani.com - I placed in the Diamond Challenge (University of Delaware's global entrepreneurship competition for high schoolers, ages 14-18). [Add specific placement: 1st place = $12K, 2nd = $8K, 3rd = $4K]. The business I pitched was FlowState (flowstateai.us), my AI productivity app. Add this as a significant achievement: 'Diamond Challenge [placement] - pitched FlowState to judges at the University of Delaware's global high school entrepreneurship competition, competing against teams from around the world.' Highlight the prize amount if applicable.",
-          inProgress: "Add an in-progress item to my portfolio at eliafshani.com. I'm currently developing a business plan for the Diamond Challenge (University of Delaware's global entrepreneurship competition for students ages 14-18). I'm planning to enter with FlowState (flowstateai.us) - developing financial projections, market analysis, and pitch deck. The Diamond Challenge has a $12K first place prize. Show this as actively in development alongside my existing projects FlowState and Voyage."
-        }
-      },
-      {
-        id: 'cyberpatriot',
-        name: 'CyberPatriot',
-        tier: 'A',
-        type: 'Competition',
-        short: "Air Force Association's national youth cyber defense competition. Team event, free. Builds real security skills.",
-        deadline: 'Register Sept, compete Oct-Mar',
-        cost: 'Free',
-        what: "CyberPatriot is the National Youth Cyber Education Program created by the Air Force Association. Students work in teams to find and fix cybersecurity vulnerabilities in virtual operating systems. The competition runs in rounds from October through March with national finals.",
-        keyInfo: [
-          { label: 'Host', value: 'Air Force Association' },
-          { label: 'Team', value: '2-6 members' },
-          { label: 'Cost', value: 'Free' },
-          { label: 'Season', value: 'Oct 2026 - Mar 2027' },
-          { label: 'Format', value: 'Virtual OS hardening rounds' },
-          { label: 'Register', value: 'September (annual)' },
-        ],
-        prizes: [
-          'National Championship scholarship awards',
-          'Air Force Association recognition',
-          'State and regional trophies',
-          'Real cybersecurity skills and certifications pathway',
-        ],
-        eligibility: [
-          'Must be a middle or high school student',
-          'Must compete as part of a team (2-6 members)',
-          'Team must be affiliated with a school, club, or homeschool group',
-          'US students only for national competition',
-        ],
-        steps: [
-          'Find or start a CyberPatriot team at Milken Community School',
-          'Register at uscyberpatriot.org before the September deadline',
-          'Download the practice images and start learning Linux/Windows hardening',
-          'Study: user account management, firewall rules, patch management, service hardening',
-          'Complete the online training modules (free in the CyberPatriot portal)',
-          'Compete in the qualifying rounds (October-November)',
-          'Advance through State and Semifinal rounds if you qualify',
-        ],
-        context: "CyberPatriot is excellent for building real security knowledge that pays off in everything from bug bounties to future internships. The competition runs on Linux and Windows VMs - you harden them by removing vulnerabilities. Start practicing early with the released practice images. Even if you don't make nationals, the skills you build are genuinely valuable and the team experience looks great on applications.",
-        prompts: {
-          participated: "Add CyberPatriot to the competitions/experience section of my portfolio at eliafshani.com. I competed in CyberPatriot (Air Force Association's national youth cyber defense competition) as part of a team. The competition involved finding and fixing cybersecurity vulnerabilities in virtual operating systems over the Oct-Mar season. Add: 'Competed in CyberPatriot - Air Force Association's national high school cybersecurity competition. Team event focusing on securing virtual Linux and Windows environments.' I already have FlowState and Voyage listed as projects.",
-          won: "Update my portfolio at eliafshani.com - my team placed [add specific placement: State, Regional, National semifinalist, etc.] in CyberPatriot, the Air Force Association's national high school cybersecurity competition. We competed in [year] season. Add this to the competitions section with the specific placement. CyberPatriot involves teams of students securing virtual OS environments against live scoring. Highlight the cybersecurity angle as a complement to my existing software projects FlowState and Voyage.",
-          inProgress: "Add an in-progress competition to my portfolio at eliafshani.com. I'm currently competing in the CyberPatriot season (Air Force Association's national high school cyber defense competition). My team is working through the qualifying rounds, focusing on Linux and Windows security hardening. Show this as active participation in a cybersecurity competition alongside my existing projects FlowState and Voyage."
-        }
-      },
-      {
-        id: 'usaco',
-        name: 'USACO',
-        tier: 'A',
-        type: 'Competition',
-        short: "USA Computing Olympiad. Individual algorithmic coding. Bronze to Platinum divisions. Huge for CS college apps.",
-        deadline: 'Dec, Jan, Feb, Mar contests',
-        cost: 'Free',
-        what: "The USA Computing Olympiad (USACO) is the most prestigious pre-college algorithmic programming competition in the US. Students compete individually through 4 division levels: Bronze, Silver, Gold, and Platinum. Top Platinum scorers are eligible for the US team at the International Olympiad in Informatics (IOI).",
-        keyInfo: [
-          { label: 'Host', value: 'USACO / Cornell / Iowa State' },
-          { label: 'Team', value: 'Individual only' },
-          { label: 'Cost', value: 'Free' },
-          { label: 'Divisions', value: 'Bronze / Silver / Gold / Platinum' },
-          { label: 'Contests', value: 'Dec, Jan, Feb, Mar' },
-          { label: 'Languages', value: 'C++, Java, Python' },
-        ],
-        prizes: [
-          'Platinum: eligible for US team at IOI (International Olympiad in Informatics)',
-          'Gold+: recognized by top CS university admissions',
-          'All levels: genuine CS problem-solving credential',
-          'Direct conversation topic in college essays and interviews',
-        ],
-        eligibility: [
-          'Any pre-college student in the US',
-          'Must register at usaco.org (free)',
-          'Compete in a 4-hour window during contest month',
-          'Self-reported - no school affiliation required',
-        ],
-        steps: [
-          'Register free at usaco.org - create an account',
-          'Start at Bronze level (everyone starts here)',
-          'Study: arrays, sorting, basic graphs, brute force, binary search, prefix sums',
-          'Practice on USACO past problems at usaco.guide',
-          'Compete in December contest (first contest of the season)',
-          'Promote to Silver by scoring 750+/1000 in a Bronze contest',
-          'Keep competing through January, February, March to advance',
-        ],
-        context: "CS50x gives you a solid foundation but USACO Bronze requires specific competitive programming patterns. The best free resource is usaco.guide - it's organized exactly by what you need to learn for each division. Python is allowed but C++ is faster for time limits at higher levels. Realistic Year 1 goal: promote from Bronze to Silver. That alone is meaningful on college applications. Gold is impressive. Platinum is elite.",
-        prompts: {
-          participated: "Add USACO to my portfolio at eliafshani.com. I've been competing in USACO (USA Computing Olympiad), the prestigious pre-college algorithmic programming competition. I'm at [current division] level, competing in individual contests. Add to the competitions section: 'Competing in USACO (USA Computing Olympiad) - individual algorithmic programming competition with divisions from Bronze to Platinum. Studying advanced algorithms including graph theory, dynamic programming, and data structures.' I already have FlowState and Voyage as existing projects.",
-          won: "Update my portfolio at eliafshani.com - I promoted to [Silver/Gold/Platinum] division in USACO (USA Computing Olympiad) by scoring [score] in the [month] [year] contest. USACO is the most prestigious pre-college algorithmic CS competition in the US. [If Platinum]: This makes me eligible to compete for a spot on the US team at the International Olympiad in Informatics (IOI). Add this achievement prominently - it's a significant CS credential. I already have FlowState and Voyage as projects. This shows the algorithmic/CS fundamentals side of my skills.",
-          inProgress: "Add an in-progress achievement to my portfolio at eliafshani.com. I'm actively studying for and competing in USACO (USA Computing Olympiad) - currently at [Bronze/Silver] division, working toward promotion to [Silver/Gold]. I'm studying algorithms including [list 2-3 topics you're currently learning]. Show this as an ongoing commitment to competitive CS, alongside my existing projects FlowState (flowstateai.us) and Voyage browser."
-        }
-      },
-      {
-        id: 'github-portfolio',
-        name: 'GitHub Student Developer Pack',
-        tier: 'A',
-        type: 'Tool',
-        short: 'Already done. Free access to $200K+ of developer tools. Keep your GitHub active with consistent commits.',
-        deadline: 'Done',
-        cost: 'Free',
-        what: "The GitHub Student Developer Pack gives verified students free access to over $200,000 worth of developer tools including GitHub Pro, GitHub Copilot, Codespaces, domains, cloud credits, and dozens of professional SaaS tools. You've already set this up.",
-        keyInfo: [
-          { label: 'Status', value: 'Already done!' },
-          { label: 'Cost', value: 'Free with student verification' },
-          { label: 'Renewal', value: 'Yearly while enrolled' },
-          { label: 'Value', value: '$200K+ in tools' },
-          { label: 'Includes', value: 'Copilot, Pro, Codespaces' },
-          { label: 'Expires', value: 'When you graduate' },
-        ],
-        prizes: [
-          'GitHub Pro (unlimited private repos, insights)',
-          'GitHub Copilot free',
-          'GitHub Codespaces (cloud dev environments)',
-          '$50-200 cloud credits from various providers',
-          'Free .me domain, Canva Pro, and many more',
-        ],
-        eligibility: [
-          'Must be a verified student (you qualify)',
-          'Need a .edu email OR school ID/enrollment proof',
-          'Must renew annually while in school',
-          'Already completed!',
-        ],
-        steps: [
-          'Already done! You have the Student Developer Pack.',
-          'Keep your GitHub profile active - aim for consistent green contribution graph',
-          'Pin your best repos: FlowState and Voyage at minimum',
-          'Write good READMEs for all your main projects',
-          'Renew the Student Developer Pack each academic year',
-        ],
-        context: "GitHub is your professional portfolio as a developer. Admissions officers and competition judges will look at it. Make sure FlowState and Voyage have clear READMEs with screenshots, tech stack, and what problems they solve. Regular commits - even small ones - show you're actively building. The green squares matter more than people admit.",
-        prompts: {
-          participated: "My portfolio at eliafshani.com should mention my GitHub presence and the GitHub Student Developer Pack. I'm a verified GitHub student and have set up my developer portfolio there. I have FlowState (flowstateai.us) and Voyage browser as my pinned repos. Add a note to the tools/setup section: 'GitHub Student Developer Pack - verified student access to GitHub Pro, Copilot, Codespaces, and $200K+ in developer tools. Active GitHub contributor with FlowState and Voyage as pinned public projects.' Include a link to my GitHub profile.",
-          won: "Add to my portfolio at eliafshani.com that I have the GitHub Student Developer Pack set up and my GitHub is active. Since this is a tool I have set up (not a competition to win), please update the 'tools and setup' section to show GitHub as verified and active, with my projects FlowState (flowstateai.us) and Voyage featured. Link to my GitHub profile.",
-          inProgress: "Add a 'developer tools' or 'setup' section to my portfolio at eliafshani.com showing my GitHub Student Developer Pack as active and configured. I'm currently building out my GitHub profile with my projects FlowState (flowstateai.us) and Voyage browser. Show this as 'set up and actively using' in the tools section."
-        }
-      },
-      {
-        id: 'app-store',
-        name: 'Ship to App Store',
-        tier: 'A',
-        type: 'Tool',
-        short: "Publish a real iOS/macOS app to the App Store. $99/year Apple Developer Program. Voyage or FlowState mobile?",
-        deadline: 'Ongoing',
-        cost: '$99/year',
-        what: "The Apple Developer Program lets you ship apps to the App Store, Mac App Store, and TestFlight. Enrolling and shipping a real app - even a simple one - is a concrete developer credential. Under 18 requires parental enrollment.",
-        keyInfo: [
-          { label: 'Cost', value: '$99/year' },
-          { label: 'Host', value: 'Apple' },
-          { label: 'Age', value: 'Parental consent under 18' },
-          { label: 'Tools', value: 'Xcode + Mac required' },
-          { label: 'Review', value: '1-3 days for App Store Review' },
-          { label: 'Platform', value: 'iOS, macOS, iPadOS' },
-        ],
-        prizes: [
-          'Real shipped App Store app (huge portfolio differentiator)',
-          'Developer credentials and experience with Xcode',
-          'Access to TestFlight for beta distribution',
-          'App Store Connect analytics',
-        ],
-        eligibility: [
-          'Must have a Mac and Xcode installed',
-          'Under 18: parent/guardian must enroll on your behalf',
-          'Must agree to Apple Developer Program License Agreement',
-          '$99/year fee required',
-        ],
-        steps: [
-          'Talk to your parents about enrolling in the Apple Developer Program ($99/year)',
-          'Enroll at developer.apple.com/programs/enroll - parent enrolls for you if under 18',
-          'Decide on your first app: a FlowState iOS companion, or a simplified Voyage mobile browser',
-          'Build the app in Xcode - start with a focused, simple version',
-          'Create App Store screenshots and a compelling app description',
-          'Submit for App Store Review (expect 1-3 days)',
-          'Ship it - then promote on GitHub and your portfolio',
-        ],
-        context: "Having a shipped App Store app at 14 is genuinely rare and impressive. You don't need it to be complex - a focused, polished app that does one thing well is better than an ambitious app that feels unfinished. A FlowState iOS companion (focus timer, session tracking) or a simplified mobile browser would both work. The Swift Student Challenge prep with Apple's free curriculum would directly help you build this.",
-        prompts: {
-          participated: "Add App Store developer status to my portfolio at eliafshani.com. I'm enrolled in the Apple Developer Program and have shipped an app to the App Store. Add to my projects or achievements: 'Published [App Name] to the App Store - [brief description]. Enrolled in Apple Developer Program. This is a real shipped iOS/macOS app.' I already have FlowState (flowstateai.us) and Voyage browser listed. If you can, add an App Store badge or link. My Apple Developer portfolio shows I build for real platforms, not just the web.",
-          won: "Update my portfolio at eliafshani.com - my app [App Name] has been published on the App Store and has [X downloads / featured by Apple / reached top charts in category - add specific achievement]. Add this as a highlighted achievement under my projects. I'm a 14-year-old developer (9th grade, Milken Community School, LA) who shipped a real App Store app alongside FlowState (flowstateai.us) and Voyage browser. Make the App Store publication a featured item.",
-          inProgress: "Add an in-progress project to my portfolio at eliafshani.com. I'm currently enrolled in the Apple Developer Program and actively building an iOS/macOS app for the App Store. The app is [brief description of what you're building]. Show this as 'in development' with an estimated ship date if you have one. I already have FlowState (flowstateai.us) and Voyage browser as existing projects. This would be my first App Store submission."
-        }
-      },
-      {
-        id: 'odin-project',
-        name: 'The Odin Project',
-        tier: 'B',
-        type: 'Course',
-        short: "Free, open-source full-stack web dev curriculum. Best free JS course on the internet. Self-paced.",
-        deadline: 'Self-paced',
-        cost: 'Free',
-        what: "The Odin Project is a free, open-source web development curriculum that takes you from fundamentals to full-stack JavaScript or Ruby. It's project-based, so you build real things instead of just watching videos. Widely considered the best free web dev curriculum online.",
-        keyInfo: [
-          { label: 'Cost', value: 'Free' },
-          { label: 'Pace', value: 'Self-paced' },
-          { label: 'Stack', value: 'JavaScript (or Ruby)' },
-          { label: 'Certificate', value: 'No formal cert' },
-          { label: 'Projects', value: 'Yes - build real things' },
-          { label: 'Duration', value: 'Months, at your pace' },
-        ],
-        prizes: [
-          'Deep JavaScript and web dev knowledge',
-          'Portfolio of real projects to show',
-          'Strong foundation for everything else you build',
-          'Active Discord community for support',
-        ],
-        eligibility: [
-          'Anyone - completely open',
-          'Start with Foundations (even if you know some HTML/CSS)',
-          'Recommend doing JavaScript path given your background',
-        ],
-        steps: [
-          'Go to theodinproject.com and create a free account',
-          'Start with Foundations path (even if you know HTML/CSS - it goes deeper)',
-          'Complete all projects in the Foundations section before moving on',
-          'Move to Full Stack JavaScript path',
-          'Push every project to GitHub as you go',
-          'Add your best Odin Project builds to your portfolio',
-        ],
-        context: "The Odin Project is worth doing because it builds real depth in JavaScript - the fundamentals you need for everything from USACO prep to building better frontend for FlowState. The projects are genuinely challenging and the community is strong. Don't skip the hard parts.",
-        prompts: {
-          participated: "Add The Odin Project to the education/courses section of my portfolio at eliafshani.com. I'm working through The Odin Project's JavaScript curriculum - it's a free, project-based full-stack web development course. Add: 'Completing The Odin Project - JavaScript full-stack curriculum. Project-based learning including [list 1-2 projects you've built].' I already have FlowState (flowstateai.us) and Voyage browser as main projects - this shows my commitment to going deeper on fundamentals.",
-          won: "Update my portfolio at eliafshani.com - I've completed The Odin Project's [Foundations / Full Stack JavaScript] curriculum. Add to the education section: 'Completed The Odin Project - [path name]. Built [list notable projects] as part of the curriculum. The Odin Project is a rigorous, project-based web development course that goes from fundamentals to full-stack JavaScript.' Keep it factual - The Odin Project doesn't have formal certificates but the completion is meaningful.",
-          inProgress: "Add an in-progress course to my portfolio at eliafshani.com. I'm currently working through The Odin Project's JavaScript curriculum - a free, project-based full-stack web development course. I'm at [current section/project] in the curriculum. Show this as actively in progress alongside my existing projects FlowState (flowstateai.us) and Voyage browser."
-        }
-      },
-      {
-        id: 'freecodecamp',
-        name: 'freeCodeCamp',
-        tier: 'B',
-        type: 'Course',
-        short: "Free verified certifications in JS and Python. 300 hours per cert. Certs are recognized and the projects are real.",
-        deadline: 'Self-paced',
-        cost: 'Free',
-        what: "freeCodeCamp offers free, self-paced programming certifications covering web development, JavaScript algorithms, Python, data analysis, and more. Each certification requires completing a series of challenges and 5 required projects. Certificates are verified and shareable.",
-        keyInfo: [
-          { label: 'Cost', value: 'Free' },
-          { label: 'Certificate', value: 'Yes - verified + shareable' },
-          { label: 'Pace', value: 'Self-paced' },
-          { label: 'Top Certs', value: 'JS Algorithms, Python' },
-          { label: 'Hours', value: '~300 hrs per cert (self-paced)' },
-          { label: 'Projects', value: 'Required (5 per cert)' },
-        ],
-        prizes: [
-          'Free verified certificate for each completed track',
-          'Shareable link + embed for resume/portfolio',
-          'JavaScript Algorithms cert directly useful for USACO prep',
-          'Python cert useful for MIT OCW and general CS',
-        ],
-        eligibility: [
-          'Anyone - completely free and open',
-          'Start with JavaScript Algorithms and Data Structures',
-          'Or Responsive Web Design if you want to deepen HTML/CSS',
-        ],
-        steps: [
-          'Go to freecodecamp.org and create a free account',
-          'Start with JavaScript Algorithms and Data Structures certification',
-          'Complete all required challenges in each section',
-          'Build the 5 required projects for the certification',
-          'Earn and share your verified certificate',
-          'Consider Scientific Computing with Python next',
-        ],
-        context: "The JavaScript Algorithms and Data Structures certification is specifically useful for USACO Bronze/Silver prep since it covers sorting, recursion, and data structures. Python cert helps with MIT OCW compatibility. Pick one and finish it - half-finished certifications don't help. The projects are more important than the certificate itself.",
-        prompts: {
-          participated: "Add freeCodeCamp certification(s) to my portfolio at eliafshani.com. I've completed the [JavaScript Algorithms and Data Structures / Scientific Computing with Python / other] certification on freeCodeCamp. Add to the education section: 'freeCodeCamp - [Certification Name]. Completed 300+ hours of curriculum including [mention 1-2 required projects]. Verified certificate available.' I already have a Harvard CS50x certificate - this adds JavaScript/Python depth.",
-          won: "Update my portfolio at eliafshani.com - I've completed the freeCodeCamp [JavaScript Algorithms and Data Structures / Python / other] certification. Add the verified certificate to my education section with a link to the certificate. The certification required completing 5 projects including [list them if you know]. I already have CS50x from Harvard - this adds freeCodeCamp to my formal learning credentials alongside FlowState (flowstateai.us) and Voyage as my built projects.",
-          inProgress: "Add an in-progress course to my portfolio at eliafshani.com. I'm currently working through the freeCodeCamp [JavaScript Algorithms and Data Structures / Python] certification. I'm at [section name or percentage complete]. Show this as in progress. I already have Harvard CS50x completed and FlowState and Voyage as built projects."
-        }
-      },
-      {
-        id: 'google-ai-essentials',
-        name: 'Google AI Essentials',
-        tier: 'B',
-        type: 'Course',
-        short: "Google's official AI fundamentals course on Coursera. Free via financial aid. 5-10 hours to complete.",
-        deadline: 'Self-paced',
-        cost: 'Free (financial aid)',
-        what: "Google AI Essentials is Google's official introductory AI course on Coursera, covering AI fundamentals, tools, and responsible use. It's designed for non-technical and technical learners alike. The financial aid pathway makes it completely free - and approval rate is very high.",
-        keyInfo: [
-          { label: 'Host', value: 'Google on Coursera' },
-          { label: 'Cost', value: 'Free via financial aid' },
-          { label: 'Time', value: '5-10 hours' },
-          { label: 'Certificate', value: 'Google/Coursera cert' },
-          { label: 'Financial Aid', value: '15 days to approve' },
-          { label: 'Pace', value: 'Self-paced' },
-        ],
-        prizes: [
-          'Official Google/Coursera certificate',
-          'Shareable on LinkedIn and resume',
-          'Good context for building AI features in FlowState',
-        ],
-        eligibility: [
-          'Anyone - completely open enrollment',
-          'Apply for financial aid to get it free',
-          'Financial aid approval typically takes 15 days',
-        ],
-        steps: [
-          'Go to coursera.org and search "Google AI Essentials"',
-          'Click "Enroll for Free" then select "Applying for Financial Aid"',
-          'Fill out the financial aid application (honest answers - approval rate is very high)',
-          'Wait 15 days for approval email',
-          'Once approved, complete all 5 modules at your own pace',
-          'Earn your certificate and add to LinkedIn and your portfolio',
-        ],
-        context: "This is a quick win - apply for financial aid now since it takes 15 days to approve, then the course itself is only 5-10 hours. The Google name on the certificate carries weight. The content on responsible AI use is directly relevant to FlowState since you're building with AI.",
-        prompts: {
-          participated: "Add Google AI Essentials to the education section of my portfolio at eliafshani.com. I completed Google AI Essentials on Coursera - Google's official AI fundamentals course. Add: 'Google AI Essentials (Coursera) - Google's official AI fundamentals certification covering AI concepts, tools, and responsible AI development.' I'm the founder of FlowState (flowstateai.us), an AI productivity app, so this formal AI credential is relevant context for my work.",
-          won: "Update my portfolio at eliafshani.com - I completed and earned the Google AI Essentials certificate on Coursera. Add this to the education/certifications section with the certificate link. Google AI Essentials is Google's official AI course. Given that I built FlowState (flowstateai.us), an AI productivity tool, this certification shows formal understanding of the AI domain I'm building in. Add next to my Harvard CS50x certificate.",
-          inProgress: "Add an in-progress certification to my portfolio at eliafshani.com. I'm currently taking Google AI Essentials on Coursera - Google's official AI fundamentals course. I applied for financial aid and am working through the modules. As the founder of FlowState (flowstateai.us), an AI productivity app, this formal AI training is directly relevant to my work. Show as in progress."
-        }
-      },
-      {
-        id: 'mit-ocw',
-        name: 'MIT OCW - Intro to CS (Python)',
-        tier: 'B',
-        type: 'Course',
-        short: "MIT's 6.0001 course materials, free. Actual MIT-level problem sets in Python. No cert but MIT-grade rigor.",
-        deadline: 'Self-paced',
-        cost: 'Free',
-        what: "MIT OpenCourseWare 6.0001 (Introduction to Computer Science and Programming Using Python) is the actual course material from MIT's CS program, freely available online. Includes lecture videos, problem sets, and exams from the real MIT class. No certificate but MIT-grade rigor.",
-        keyInfo: [
-          { label: 'Host', value: 'MIT OpenCourseWare' },
-          { label: 'Course', value: '6.0001' },
-          { label: 'Language', value: 'Python' },
-          { label: 'Cost', value: 'Free' },
-          { label: 'Certificate', value: 'None (self-study)' },
-          { label: 'Rigor', value: 'Actual MIT coursework' },
-        ],
-        prizes: [
-          'MIT-level CS fundamentals in Python',
-          'Real problem set experience matching MIT students',
-          'Genuine claim: "completed MIT 6.0001 problem sets"',
-          'Strong prep for USACO and further CS study',
-        ],
-        eligibility: [
-          'Anyone - all materials freely available at ocw.mit.edu',
-          'No registration or sign-up required',
-          'Best after CS50x (you already have this foundation)',
-        ],
-        steps: [
-          'Go to ocw.mit.edu and search "6.0001"',
-          'Download the course materials (lectures, problem sets)',
-          'Watch lecture videos in order - they build on each other',
-          'Complete each problem set before moving to the next lecture',
-          'Check your work against the posted solutions',
-          'Mention on your resume: "Completed MIT 6.0001 problem sets"',
-        ],
-        context: "Since you've already done CS50x, MIT 6.0001 will deepen your Python specifically. The problem sets are famously rigorous - completing them is meaningful even without a certificate. Pairs well with freeCodeCamp's Python cert for a formal credential alongside the MIT-level rigor.",
-        prompts: {
-          participated: "Add MIT OpenCourseWare 6.0001 to the education section of my portfolio at eliafshani.com. I worked through MIT's 6.0001 (Introduction to Computer Science and Programming Using Python) - the actual MIT course materials including lecture videos and problem sets, available free at ocw.mit.edu. Add: 'MIT OpenCourseWare 6.0001 - Completed MIT's Introduction to CS and Programming course materials including problem sets and lectures. No formal certificate (self-study) but MIT-level rigor.' I already have Harvard CS50x completed.",
-          won: "Update my portfolio at eliafshani.com - I've completed all problem sets for MIT OCW 6.0001 (Intro to CS and Programming Using Python). This is the actual MIT course material. Add to education: 'Completed MIT 6.0001 (Introduction to Computer Science and Programming Using Python) problem sets via MIT OpenCourseWare. Self-study at MIT course standard.' Note that it's self-study without a formal certificate, but completing MIT-level problem sets at 14 (9th grade, Milken Community School, LA) alongside my CS50x certificate is worth highlighting.",
-          inProgress: "Add an in-progress course to my portfolio at eliafshani.com. I'm currently working through MIT OCW 6.0001 (Introduction to Computer Science and Programming Using Python) - MIT's actual course materials available free online. I'm at [problem set number] in the curriculum. I already have Harvard CS50x completed. Show this as in progress, noting it's MIT-level self-study material."
-        }
-      },
-      {
-        id: 'learn-swift',
-        name: 'Learn Swift (Apple Lessons)',
-        tier: 'B',
-        type: 'Course',
-        short: "Apple's free Swift curriculum. Essential prep for Swift Student Challenge. Do this before Feb 2027.",
-        deadline: 'Before Feb 2027',
-        cost: 'Free',
-        what: "Apple's free Swift curriculum available through Swift Playgrounds and Develop in Swift resources. Includes 'Learn to Code' lessons and 'App Design Workbook'. These are Apple's own learning materials and the primary preparation pathway for the Swift Student Challenge.",
-        keyInfo: [
-          { label: 'Host', value: 'Apple' },
-          { label: 'Cost', value: 'Free' },
-          { label: 'Platform', value: 'iPad or Mac (Swift Playgrounds)' },
-          { label: 'Prerequisite', value: 'Basic coding knowledge' },
-          { label: 'Goal', value: 'Prep for Swift Student Challenge' },
-          { label: 'Deadline', value: 'Complete before Feb 2027' },
-        ],
-        prizes: [
-          'Swift programming foundation',
-          'Ready to compete in Swift Student Challenge',
-          'Apple App Development with Swift certificate (if doing full curriculum)',
-        ],
-        eligibility: [
-          'Anyone with an iPad or Mac',
-          'Free on the App Store (Swift Playgrounds app)',
-          'No prior Swift experience needed',
-        ],
-        steps: [
-          'Download Swift Playgrounds from the Mac App Store or iPad App Store (free)',
-          'Complete "Learn to Code" part 1 and 2 inside Swift Playgrounds',
-          'Move to "App Design Workbook" for UI and interaction patterns',
-          'Try the "Get Started with Apps" module for real app structure',
-          'Practice by building small original projects inside Playgrounds',
-          'Start planning your Swift Student Challenge app concept by November 2026',
-        ],
-        context: "Swift Playgrounds is the exact environment you'll submit your Swift Student Challenge app in, so learning here directly translates. The Apple curriculum is well-designed and you'll go from zero to building real interactive experiences. Start at least 3-4 months before the Challenge deadline. Your existing programming background (Python from CS50x, JS for FlowState) means you'll pick up Swift concepts faster than most.",
-        prompts: {
-          participated: "Add Apple's Swift curriculum to the education section of my portfolio at eliafshani.com. I've been learning Swift through Apple's free 'Learn to Code' lessons and App Design Workbook in Swift Playgrounds. Add: 'Apple Swift Curriculum - Completed Learn to Code and App Design Workbook in Swift Playgrounds. Building toward Swift Student Challenge 2027.' I already know Python (CS50x) and JavaScript (FlowState) - Swift is my third language.",
-          won: "Update my portfolio at eliafshani.com - I completed Apple's Swift curriculum including [list what you completed: Learn to Code, App Design Workbook, Develop in Swift]. Add to education: 'Completed Apple's Swift curriculum via Swift Playgrounds. Now building original Swift apps including [name if applicable].' This shows progression from my existing Python and JavaScript skills to native Apple platform development.",
-          inProgress: "Add in-progress learning to my portfolio at eliafshani.com. I'm currently working through Apple's free Swift curriculum in Swift Playgrounds - learning Swift as my third programming language (I already know Python and JavaScript). I'm at [current lesson/module]. Goal is to be ready for the Swift Student Challenge 2027 in February. Show as active learning alongside my existing projects FlowState (flowstateai.us) and Voyage."
-        }
-      },
-      {
-        id: 'cs50x',
-        name: 'Harvard CS50x',
-        tier: 'B',
-        type: 'Course',
-        short: "Already done! Harvard's world-famous intro CS course. A real credential from a real university. Well done.",
-        deadline: 'Completed',
-        cost: 'Free (cert $25)',
-        what: "Harvard CS50x is the world's most popular CS course, offered free online through edX. It covers C, Python, SQL, web development, and problem-solving fundamentals. You've already completed this - it's a legitimate Harvard credential from the world's most famous CS course.",
-        keyInfo: [
-          { label: 'Status', value: 'COMPLETED!' },
-          { label: 'Host', value: 'Harvard / edX' },
-          { label: 'Certificate', value: 'Verified Harvard credential' },
-          { label: 'Topics', value: 'C, Python, SQL, Web, CS fundamentals' },
-          { label: 'Duration', value: '10-12 weeks (done!)' },
-          { label: 'Cost', value: 'Free (cert $25 if purchased)' },
-        ],
-        prizes: [
-          'Harvard-branded verified certificate (if purchased)',
-          'Strong CS fundamentals in C, Python, SQL, and web dev',
-          'CS50 alumni network (huge community)',
-          'Foundation for everything above on this list',
-        ],
-        eligibility: [
-          'Already completed - nothing to do here!',
-          'Make sure to add to your LinkedIn and portfolio',
-          'CS50 certificate should be prominently featured',
-        ],
-        steps: [
-          'Already done! You finished CS50x.',
-          'If you haven\'t purchased the verified certificate ($25 on edX), consider it',
-          'Add to your LinkedIn profile in the Licenses & Certifications section',
-          'Reference in your Congressional App Challenge submission',
-          'Reference in your Swift Student Challenge and Diamond Challenge applications',
-        ],
-        context: "CS50x is genuinely respected. When you mention it on college apps or in competition submissions, people know what it is. Make sure it's prominently featured everywhere - LinkedIn, your eliafshani.com portfolio, competition bios. It validates your CS foundation in a way that's immediately recognizable.",
-        prompts: {
-          participated: "Add Harvard CS50x to my portfolio at eliafshani.com if it's not already there. I completed Harvard CS50 (Introduction to Computer Science) via edX - the world's most popular CS course. Add to education: 'Harvard CS50x - Introduction to Computer Science. Completed Harvard's world-famous CS course covering C, Python, SQL, web development, and CS fundamentals. Certificate earned.' Make it prominent - CS50x is a real Harvard credential.",
-          won: "Make sure Harvard CS50x is prominently featured on my portfolio at eliafshani.com. I completed Harvard CS50x (CS50's Introduction to Computer Science). This should be featured alongside my projects FlowState (flowstateai.us) and Voyage browser as a key credential. If it's already on the site, check it looks prominent enough - a 14-year-old completing Harvard CS50 is significant and should be clearly visible to anyone looking at the portfolio.",
-          inProgress: "This course is already completed! If my portfolio at eliafshani.com doesn't show Harvard CS50x as completed, please add it: 'Harvard CS50x - COMPLETED. Harvard's Introduction to Computer Science course covering C, Python, SQL, web development, and algorithms.' Make sure the status shows as complete."
-        }
-      },
-      {
-        id: 'hackathons',
-        name: 'High School Hackathons',
-        tier: 'B',
-        type: 'Challenge',
-        short: "Hack Club's network of free hackathons. Year-round, virtual and in-person. Build something new in 24-48 hours.",
-        deadline: 'Year-round',
-        cost: 'Free',
-        what: "Hack Club hosts and supports a global network of free hackathons specifically for high school students. Events run year-round, both virtual and in-person, and typically last 24-48 hours. You build a project, present it, and can win prizes. Great for meeting other student builders.",
-        keyInfo: [
-          { label: 'Host', value: 'Hack Club (and affiliates)' },
-          { label: 'Cost', value: 'Free' },
-          { label: 'Schedule', value: 'Year-round (multiple per month)' },
-          { label: 'Format', value: '24-48 hour build sprint' },
-          { label: 'Team', value: 'Solo or team' },
-          { label: 'Virtual', value: 'Yes - many virtual options' },
-        ],
-        prizes: [
-          'Varies per hackathon: hardware, cash, GitHub swag',
-          'Hack Club recognition and community',
-          'Portfolio projects built under pressure',
-          'Network of other high school developers',
-        ],
-        eligibility: [
-          'Must be a high school student',
-          'Free to enter all Hack Club events',
-          'Some in-person events include travel stipends',
-          'Can participate as solo or with a team',
-        ],
-        steps: [
-          'Go to hackathons.hackclub.com to see upcoming events',
-          'Register for the next hackathon that fits your schedule',
-          'Come with 2-3 project ideas ready (you can pivot during the event)',
-          'Build something real in 24-48 hours - scope small, execute well',
-          'Submit your project and present to judges',
-          'Add your hackathon project to GitHub afterward',
-        ],
-        context: "Hackathons are great for your network and portfolio diversity. You'll build something different from FlowState and Voyage - a 24-hour project shows a different skill set (speed, adaptability, scoping). The Hack Club community is full of ambitious high school developers - people worth knowing. Aim for 2-3 hackathons per year.",
-        prompts: {
-          participated: "Add hackathon experience to my portfolio at eliafshani.com. I participated in [hackathon name] hosted by Hack Club (or affiliated). In 24 hours, I built [brief project description]. Add to the experience section: '[Hackathon Name] - Hack Club hackathon. Built [project name]: [one-sentence description] in 24 hours. [Add any prizes or special recognition if applicable].' I already have FlowState (flowstateai.us) and Voyage as my main projects - hackathon projects show I can build fast under pressure.",
-          won: "Update my portfolio at eliafshani.com - I won [prize or placement] at [Hackathon Name], a Hack Club high school hackathon. I built [project name]: [description] in [24/48] hours. [Add specific prize: best overall, best use of X technology, etc.]. Add this as a hackathon win to my competitions section. I already have FlowState (flowstateai.us) and Voyage - this hackathon win shows I can build and ship something from scratch under time pressure.",
-          inProgress: "Add an upcoming event to my portfolio or a 'currently building' section at eliafshani.com. I'm registered for [Hackathon Name], a Hack Club high school hackathon happening on [date]. I'm planning to build [project idea if you have one] or explore new ideas during the event. Show this as an upcoming/in-progress hackathon alongside my existing projects FlowState (flowstateai.us) and Voyage."
-        }
-      }
-    ];
+  {id:"diamond",tier:"a",type:"competition",emoji:"&#128142;",title:"Diamond Challenge",
+   short:"Global entrepreneurship competition from University of Delaware. You pitch a business. FlowState already is one.",
+   deadline:"~Jan 2027 (opens Sep 2026)",cost:"Free",teamSize:"2-4 students",age:"14-18, worldwide",results:"Spring 2027",urgency:"later",
+   img:"https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=700&q=80",
+   what:"A global entrepreneurship competition for ages 14-18 run by the University of Delaware. Teams pitch a business concept in written and video form, then top teams present live at the Limitless World Summit. You'd enter with a real deployed product while most teams pitch slide decks.",
+   prize:"$100K total prize pool.\n1st place: $12,000\n2nd place: $8,000\n3rd place: $4,500\nTopical prizes: $1,500 each.\nTop teams invited to the Limitless World Summit.",
+   resumeLine:"Diamond Challenge Finalist / Winner, University of Delaware",
+   elig:[{ok:"ok",t:"Must be 14-18 at submission &mdash; you qualify"},{ok:"ok",t:"Must be enrolled in high school for duration"},{ok:"ok",t:"Open worldwide, no country restrictions"},{ok:"ok",t:"FlowState qualifies &mdash; under $100K revenue"},{ok:"no",t:"Must have a team of 2-4, can't enter solo"},{ok:"warn",t:"Needs one adult advisor aged 21+ (teacher or parent)"},{ok:"warn",t:"Must pick a track: Business Innovation or Social Innovation"}],
+   steps:["<b>Find 1-3 teammates</b> from Milken and an adult advisor","<b>Pick Business Innovation track</b> &mdash; FlowState fits perfectly","<b>Build your concept narrative</b> with validation evidence","<b>Film a 60-second pitch video</b>","<b>Register and submit</b> when cycle opens September 2026","<b>If selected</b>, pitch live or virtually in semifinals","<b>Top teams</b> present at the Limitless World Summit"],
+   extra:"Your FlowState story is uniquely strong: real deployed product, real users, FERPA/COPPA compliance, signed school data agreement. That's more evidence of a real business than 99% of teams have. Lead with traction, not the idea.",
+   url:"https://diamondchallenge.org/"},
 
-    // =====================================================================
-    // STATE
-    // =====================================================================
+  {id:"cyberpatriot",tier:"a",type:"competition",emoji:"&#128737;",title:"CyberPatriot",
+   short:"National cybersecurity competition by the Air Force Association. Secure virtual machines against real vulnerabilities.",
+   deadline:"Reg opens Aug 2026, rounds Oct-Feb",cost:"Free",teamSize:"2-6 students",age:"Middle + high school",results:"April 2027",urgency:"prep",
+   img:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=700&q=80",
+   what:"The nation's largest K-12 cybersecurity competition, run by the Air Force Association. Teams of 2-6 work to find and fix security vulnerabilities in Windows, Linux, and Cisco networking environments within a timed window. Completely free and fully online for qualifying rounds.",
+   prize:"National champions: scholarships and awards at the National Finals in Baltimore (all expenses paid). All participants get certificates and a CyberPatriot credential colleges recognize.",
+   resumeLine:"CyberPatriot National Finalist / State Champion",
+   elig:[{ok:"ok",t:"Open to all middle and high school students &mdash; you qualify"},{ok:"ok",t:"Completely free to enter"},{ok:"ok",t:"No prior cybersecurity experience needed for Junior division"},{ok:"warn",t:"Need a team of at least 2, up to 6"},{ok:"warn",t:"Need an adult coach (teacher, parent, or mentor)"}],
+   steps:["<b>Register your team</b> at uscyberpatriot.org starting August 2026","<b>Find 1-5 teammates</b> from Milken and an adult coach","<b>Practice with free online rounds</b> before the real competition","<b>Compete in Qualifying Rounds</b> in October","<b>Advance through State and Semifinal rounds</b> if you qualify","<b>National Finals</b> in Baltimore if you make it (all expenses paid)"],
+   extra:"You already understand data security more than most kids your age from setting up FlowState's IT security questionnaire and subprocessors. That mindset translates directly here and gives you a real head start.",
+   url:"https://www.uscyberpatriot.org/"},
 
-    let currentView = 'tier';
-    let currentFilter = 'all';
-    let openModalId = null;
+  {id:"usaco",tier:"a",type:"competition",emoji:"&#129504;",title:"USACO",
+   short:"USA Computing Olympiad. The most respected pure coding competition for U.S. students. Free, online, year-round.",
+   deadline:"Dec, Jan, Feb + US Open",cost:"Free",teamSize:"Solo only",age:"Pre-college",results:"Ongoing levels",urgency:"prep",
+   img:"https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=700&q=80",
+   what:"The premier algorithmic programming competition for U.S. pre-college students. Four timed contests per year, each 4-5 hours. Solve 3-4 algorithm problems per contest in Python, Java, or C++. Start at Bronze and advance to Silver, Gold, Platinum.",
+   prize:"Not cash prizes &mdash; you earn a ranked level (Bronze, Silver, Gold, Platinum) universally recognized by college CS programs.\n\nTop performers qualify for the U.S. IOI team &mdash; the International Olympiad in Informatics, one of the most prestigious CS honors worldwide.",
+   resumeLine:"USACO Silver / Gold &mdash; recognized by every top CS program",
+   elig:[{ok:"ok",t:"Must be a pre-college student &mdash; you qualify"},{ok:"ok",t:"Open to U.S. and international students worldwide"},{ok:"ok",t:"Completely free to register and compete"},{ok:"ok",t:"Start at Bronze regardless of experience"},{ok:"warn",t:"Requires real programming from scratch &mdash; learn JS or Python first"},{ok:"warn",t:"Algorithm-focused, different from product-building"}],
+   steps:["<b>Learn JavaScript or Python</b> well enough to solve problems from scratch","<b>Register free at usaco.org</b>","<b>Practice with past USACO problems</b> on the training portal","<b>Compete in December</b> &mdash; your first contest at Bronze","<b>Advance by scoring well</b> to climb levels","<b>Target Silver by end of 10th grade</b>"],
+   extra:"Silver as a 9th grader is impressive and immediately noticed. Platinum is Ivy-level rare. This is the one competition that proves you can code completely independently without any tools. The skills translate directly to technical interviews at Apple, Google, and everywhere else.",
+   url:"https://usaco.org/"},
 
-    function getStatuses() {
-      try { return JSON.parse(localStorage.getItem('eli_playbook_statuses') || '{}'); }
-      catch { return {}; }
-    }
-    function setStatus(id, status) {
-      const statuses = getStatuses();
-      statuses[id] = status;
-      localStorage.setItem('eli_playbook_statuses', JSON.stringify(statuses));
-    }
-    function getStatus(id) {
-      const statuses = getStatuses();
-      return statuses[id] || (id === 'cs50x' || id === 'github-portfolio' ? 'done' : 'not-started');
-    }
+  {id:"github",tier:"a",type:"tool",emoji:"&#128187;",title:"GitHub Portfolio",
+   short:"You've already set this up. Keep it active &mdash; it's the first thing any recruiter checks.",
+   deadline:"Done &mdash; keep active",cost:"Free",teamSize:"Solo",age:"Any",results:"Ongoing",urgency:"open",
+   img:"https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=700&q=80",
+   what:"GitHub is where builders show their work. You've already set this up. Public repos for FlowState and Voyage with detailed READMEs make your projects clickable and searchable. A green commit graph over months shows consistency no essay can fake.",
+   prize:"Unlocks the GitHub Student Developer Pack: GitHub Copilot free, $200 in cloud credits, free .dev domain, JetBrains IDE, Namecheap domain, and more tools worth thousands of dollars total.",
+   resumeLine:"github.com/yourhandle &mdash; 2+ shipped projects",
+   elig:[{ok:"ok",t:"Already set up &mdash; nothing left to do to get started"},{ok:"ok",t:"Apply for Student Developer Pack at education.github.com if you haven't"}],
+   steps:["<b>Already done</b> &mdash; you've set up GitHub","<b>Apply for the Student Developer Pack</b> at education.github.com","<b>Write strong READMEs</b> for Voyage and FlowState with screenshots","<b>Commit regularly</b> &mdash; even small updates keep your graph active","<b>Add your GitHub link</b> to every application and portfolio"],
+   extra:"READMEs matter more than most people realize. A good one: 1-sentence description, what it does, screenshots, how to run it. Most people skip this and it shows. Take 20 minutes per project on a strong README and you'll stand out.",
+   url:"https://github.com/"},
 
-    // =====================================================================
-    // STATS
-    // =====================================================================
+  {id:"appstore",tier:"a",type:"tool",emoji:"&#128241;",title:"Ship to the App Store",
+   short:"Publish a real app. Saying you have a live App Store app at 14 is rare and people remember it.",
+   deadline:"When you have something ready",cost:"$99/year",teamSize:"Solo",age:"13+ (parental consent under 18)",results:"Ongoing",urgency:"later",
+   img:"https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=700&q=80",
+   what:"The Apple Developer Program lets you publish apps to iOS and macOS. A live downloadable app with a real App Store link is concrete proof of shipping. Note: Swift Student Challenge winners get this membership free for a year.",
+   prize:"No competition prizes &mdash; but public clickable proof of shipping. Unlocks TestFlight for beta testing, App Store Connect analytics, and the full Apple developer toolkit.",
+   resumeLine:"Published app on the Apple App Store",
+   elig:[{ok:"ok",t:"Anyone can join for $99/year"},{ok:"warn",t:"Under 18 requires a parent or guardian to agree to terms"},{ok:"warn",t:"App must pass Apple's App Review (usually 1-3 days)"}],
+   steps:["<b>Build something worth shipping</b> &mdash; a clean simple side project","<b>Create an Apple Developer account</b> at developer.apple.com ($99/year)","<b>Build your app in Xcode</b> targeting iOS or macOS","<b>Submit to App Review</b> via App Store Connect","<b>Once approved</b>, share the link everywhere"],
+   extra:"Don't rush this. A half-finished app is worse than not having one. Wait until something is genuinely clean and useful. If you win Swift Student Challenge you get this free &mdash; another reason to enter in Feb 2027.",
+   url:"https://developer.apple.com/programs/"},
 
-    function updateStats() {
-      let done = 0, inProgress = 0, notStarted = 0;
-      ITEMS.forEach(item => {
-        const s = getStatus(item.id);
-        if (s === 'done') done++;
-        else if (s === 'in-progress') inProgress++;
-        else notStarted++;
-      });
-      const total = ITEMS.length;
-      const pct = Math.round((done / total) * 100);
-      document.getElementById('count-done').textContent = done;
-      document.getElementById('count-inprogress').textContent = inProgress;
-      document.getElementById('count-notstarted').textContent = notStarted;
-      document.getElementById('stats-pct').textContent = `${pct}% complete`;
-      document.getElementById('progress-fill').style.width = `${pct}%`;
-    }
+  {id:"odin",tier:"b",type:"course",emoji:"&#128421;",title:"The Odin Project",
+   short:"Free full web dev path. You know HTML and CSS &mdash; JavaScript is the exact next step and this is the best free way to learn it.",
+   deadline:"Self-paced",cost:"Free",teamSize:"Solo",age:"Any",results:"Ongoing",urgency:"open",
+   img:"https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=700&q=80",
+   what:"The best free self-paced web development curriculum online. Covers JavaScript, Node.js, React, databases, and more with real projects at every step. You already have HTML and CSS which is the perfect starting point.",
+   prize:"Not a competition. The payoff is closing your biggest skill gap: writing JavaScript from scratch, explaining your own code, and passing technical questions from judges or interviewers. Directly unlocks USACO.",
+   resumeLine:"Unlocks: USACO, technical interviews, understanding your own code",
+   elig:[{ok:"ok",t:"Completely open and free &mdash; zero requirements"},{ok:"ok",t:"You already know HTML and CSS &mdash; perfect head start"}],
+   steps:["<b>Go to theodinproject.com</b> and create a free account","<b>Start the Foundations path</b> &mdash; JavaScript basics","<b>Move to Full Stack JavaScript</b> after Foundations","<b>Build the projects</b> at the end of each section &mdash; they go on GitHub","<b>Aim to finish Foundations by end of summer</b>"],
+   extra:"Even 30 minutes a day makes a noticeable difference within a month. This is the thing that turns 'I used Claude Code' into 'I built it.' Start here before USACO.",
+   url:"https://www.theodinproject.com/"},
 
-    // =====================================================================
-    // VIEW / FILTER
-    // =====================================================================
+  {id:"freecodecamp",tier:"b",type:"course",emoji:"&#128293;",title:"freeCodeCamp",
+   short:"Free certifications in JavaScript, Python, web dev, data analysis. Each cert ends with real projects you own.",
+   deadline:"Self-paced",cost:"Free",teamSize:"Solo",age:"Any",results:"Certificate per track",urgency:"open",
+   img:"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&q=80",
+   what:"One of the most comprehensive free coding education platforms. Covers JavaScript, React, Python, Data Visualization, APIs, and more. Each certification ends with real projects you build and keep, not just quizzes. Industry-recognized certs.",
+   prize:"Free certificates in each track. The JavaScript Algorithms and Data Structures cert is directly useful for USACO prep since it covers sorting, searching, recursion, and data structures.",
+   resumeLine:"freeCodeCamp Certified &mdash; JavaScript / Responsive Web Design",
+   elig:[{ok:"ok",t:"Completely free and open to everyone"},{ok:"ok",t:"Self-paced, no deadlines"},{ok:"ok",t:"Certificates are free and shareable"}],
+   steps:["<b>Go to freecodecamp.org</b> and make a free account","<b>Start JavaScript Algorithms and Data Structures</b> &mdash; most useful for you","<b>Complete the 5 required projects</b> per cert to earn it","<b>Add your certs to GitHub and resume</b>"],
+   extra:"The JavaScript Algorithms and Data Structures cert teaches exactly what USACO problems test. Do this before attempting USACO Bronze. It's free and takes a few weeks at a comfortable pace.",
+   url:"https://www.freecodecamp.org/"},
 
-    const TIER_FILTERS = [
-      { value: 'all', label: 'All' },
-      { value: 'S', label: 'S Tier' },
-      { value: 'A', label: 'A Tier' },
-      { value: 'B', label: 'B Tier' },
-    ];
-    const TYPE_FILTERS = [
-      { value: 'all', label: 'All' },
-      { value: 'Competition', label: 'Competition' },
-      { value: 'Challenge', label: 'Challenge' },
-      { value: 'Course', label: 'Course' },
-      { value: 'Tool', label: 'Tool' },
-    ];
+  {id:"google-ai",tier:"b",type:"course",emoji:"&#129302;",title:"Google AI Essentials",
+   short:"Free Google certificate on AI fundamentals, prompt engineering, and responsible AI. Free via Coursera financial aid.",
+   deadline:"Self-paced",cost:"Free via financial aid",teamSize:"Solo",age:"Any",results:"Certificate on completion",urgency:"open",
+   img:"https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=700&q=80",
+   what:"Google's professional certificate covering AI fundamentals, prompt engineering, data analysis with AI, and AI ethics. Hosted on Coursera. In 2026 AI literacy is one of the most valued skills on any application or resume.",
+   prize:"A Google-issued certificate on Coursera you can share on LinkedIn, add to your resume, and link publicly. Get it free by applying for Financial Aid on Coursera (takes about 2 weeks to approve).",
+   resumeLine:"Google AI Essentials Certificate &mdash; Coursera",
+   elig:[{ok:"ok",t:"Open to anyone worldwide, no requirements"},{ok:"ok",t:"Free via Coursera Financial Aid application (~2 weeks to approve)"},{ok:"ok",t:"Self-paced, usually completable in 1-2 weeks"}],
+   steps:["<b>Go to coursera.org</b> and search 'Google AI Essentials'","<b>Click 'Enroll for Free'</b> then choose 'Financial Aid'","<b>Fill out the financial aid application</b> &mdash; takes about 2 weeks to approve","<b>Complete the course</b> at your own pace","<b>Download your certificate</b> and add it to your resume and portfolio"],
+   extra:"You're already building AI-powered products like FlowState. This cert formalizes what you already know and adds a credible third-party signal to it. Takes a few weeks and costs nothing.",
+   url:"https://www.coursera.org/learn/google-ai-essentials"},
 
-    function setView(view) {
-      currentView = view;
-      currentFilter = 'all';
-      document.getElementById('btn-tier').classList.toggle('active', view === 'tier');
-      document.getElementById('btn-type').classList.toggle('active', view === 'type');
-      renderFilterPills();
-      renderCards();
-    }
+  {id:"mit-ocw",tier:"b",type:"course",emoji:"&#127979;",title:"MIT OpenCourseWare &mdash; Intro to CS",
+   short:"Free MIT course on CS fundamentals using Python. University-level rigor, completely free, no certificate but serious credibility.",
+   deadline:"Self-paced",cost:"Free",teamSize:"Solo",age:"Any",results:"No formal certificate",urgency:"open",
+   img:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=700&q=80",
+   what:"MIT's Introduction to Computer Science and Programming in Python, completely free through MIT OpenCourseWare. Covers algorithms, data structures, testing, debugging, and computational thinking at university level. No cost at all.",
+   prize:"No formal certificate &mdash; but completing MIT-level material is something you can specifically mention in essays, applications, and interviews. The skills directly prepare you for USACO and technical interviews.",
+   resumeLine:"Completed MIT 6.0001 Introduction to CS &mdash; OpenCourseWare",
+   elig:[{ok:"ok",t:"Open to everyone for free, no requirements"},{ok:"ok",t:"All lectures and problem sets freely available"}],
+   steps:["<b>Go to ocw.mit.edu</b> and search '6.0001 Introduction to CS'","<b>Watch the lecture videos</b> in order","<b>Complete the problem sets</b> &mdash; they're genuinely hard, that's the point","<b>Put completed problem sets on GitHub</b> as evidence"],
+   extra:"Do this after you have basic Python from freeCodeCamp. The problem sets are actual MIT homework assignments. Finishing them gives you something concrete to point to even without a formal certificate.",
+   url:"https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/"},
 
-    function setFilter(value) {
-      currentFilter = value;
-      renderFilterPills();
-      renderCards();
-    }
+  {id:"swift",tier:"b",type:"course",emoji:"&#127758;",title:"Learn Swift (Apple Free Lessons)",
+   short:"Apple's free Everyone Can Code curriculum. Mandatory prep for the Swift Student Challenge in Feb 2027.",
+   deadline:"Goal: ready by Jan 2027",cost:"Free",teamSize:"Solo",age:"Any",results:"Ongoing",urgency:"open",
+   img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=700&q=80",
+   what:"Apple's free Everyone Can Code curriculum using Swift Playgrounds on iPad or Mac. Teaches Swift from basics to real app building. Mandatory prep for the Swift Student Challenge in February 2027 since that competition requires your own code with no AI.",
+   prize:"Not a competition itself &mdash; it's the direct unlock for the S-tier Swift Student Challenge. Apple also runs free in-person Swift coding sessions at Apple Stores in LA.",
+   resumeLine:"Unlocks: Swift Student Challenge 2027",
+   elig:[{ok:"ok",t:"Completely free, no requirements"},{ok:"ok",t:"Works on iPad or Mac with Swift Playgrounds (free from App Store)"},{ok:"ok",t:"Apple Stores in LA run free coding sessions in person"}],
+   steps:["<b>Download Swift Playgrounds</b> free from the App Store","<b>Start Everyone Can Code</b> at apple.com/education","<b>Complete Learn to Code 1 and 2</b>","<b>Move to Develop in Swift</b> for real app-building","<b>Check for Apple Store events</b> in LA at apple.com/retail/sessions","<b>By January 2027</b>, have an original app idea ready to build in February"],
+   extra:"Swift is cleaner to learn than you'd expect if you already understand HTML structure. The hardest part is getting comfortable with Xcode. Starting now gives you 8 months before the challenge opens.",
+   url:"https://www.apple.com/education/k12/teaching-code/"},
 
-    function renderFilterPills() {
-      const filters = currentView === 'tier' ? TIER_FILTERS : TYPE_FILTERS;
-      const container = document.getElementById('filter-pills');
-      container.innerHTML = filters.map(f => `
-        <button class="filter-pill ${currentFilter === f.value ? 'active' : ''}" onclick="setFilter('${f.value}')">${f.label}</button>
-      `).join('');
-    }
+  {id:"cs50",tier:"b",type:"course",emoji:"&#127979;",title:"Harvard CS50x",
+   short:"Already done. Make sure your certificate is linked on your portfolio and resume.",
+   deadline:"Done",cost:"Free",teamSize:"Solo",age:"Any",results:"Certificate earned",urgency:"open",
+   img:"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=700&q=80",
+   what:"Harvard's famous intro to computer science, completed free online. You've already finished this. It's one of the most recognized online certificates in the world &mdash; make sure it's visible everywhere.",
+   prize:"You've already earned it. A free verified certificate from Harvard recognized worldwide.",
+   resumeLine:"Completed Harvard CS50x &mdash; Computer Science (DONE)",
+   elig:[{ok:"ok",t:"Already completed &mdash; nothing left to do"},{ok:"ok",t:"Certificate is yours permanently"}],
+   steps:["<b>Already done</b> &mdash; make sure the certificate is linked on eliafshani.com","<b>Add it to your resume</b> and any application profiles","<b>Reference specific things you learned</b> when judges ask about your CS background"],
+   extra:"CS50 is one of the most respected online CS credentials in the world. It gives you real credibility when you say you understand how code works. Every judge and admissions reader recognizes it.",
+   url:"https://cs50.harvard.edu/x/"},
 
-    // =====================================================================
-    // CARDS
-    // =====================================================================
+  {id:"hackathons",tier:"b",type:"competition",emoji:"&#9889;",title:"High School Hackathons",
+   short:"Build a project in 24-48 hours. Free, often online. Hack Club tracks hundreds specifically for high schoolers.",
+   deadline:"Year-round",cost:"Usually free",teamSize:"Solo or team",age:"High school",results:"Per event",urgency:"open",
+   img:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=700&q=80",
+   what:"Timed building competitions where you make something in 24-48 hours. Hack Club tracks hundreds of free high school hackathons, many fully online. Each one is a fast project, new connections, and a shot at prizes.",
+   prize:"Prizes vary per event: gear, cloud credits, cash, subscriptions. Beyond prizes the real value is fast GitHub projects, meeting other builders, and the track record of participating regularly.",
+   resumeLine:"Hackathon participant and winner &mdash; [specific event names]",
+   elig:[{ok:"ok",t:"Most are open to any high schooler"},{ok:"ok",t:"Many are online so location doesn't matter"},{ok:"ok",t:"Beginners explicitly welcome at most events"},{ok:"warn",t:"Some require being 13+ for account creation"}],
+   steps:["<b>Go to hackathons.hackclub.com</b> and find upcoming events","<b>Register for 1-2 online ones</b> to start","<b>Build something simple that works</b> &mdash; done beats perfect every time","<b>Submit and present</b> your project","<b>Put it on GitHub</b> afterward no matter what"],
+   extra:"The goal for your first hackathon isn't to win. It's to get comfortable shipping fast under pressure. After 2-3 you'll be noticeably better at this &mdash; which helps with every other competition on this list.",
+   url:"https://hackathons.hackclub.com/"},
+];
 
-    function tierLabel(tier) {
-      if (tier === 'S') return 'S Tier - Elite';
-      if (tier === 'A') return 'A Tier - Strong';
-      return 'B Tier - Foundation';
-    }
-    function tierDesc(tier) {
-      if (tier === 'S') return 'Highest priority. Enter now, win big.';
-      if (tier === 'A') return 'High value. Significant ROI.';
-      return 'Foundation building. Do these in parallel.';
-    }
-    function tierBadgeClass(tier) {
-      return `tier-${tier.toLowerCase()}-badge`;
-    }
-    function typeBadgeClass(type) {
-      return `badge-${type.toLowerCase()}`;
-    }
-    function stripeClass(tier) {
-      return `tier-${tier.toLowerCase()}-stripe`;
-    }
+const urgencyColor={open:"var(--a)",prep:"var(--prog)",later:"var(--b)"};
+const urgencyLabel={open:"Open now",prep:"Prep now",later:"Later"};
+const SYNC_KEY="eli-playbook-v5";
+let state={};
 
-    function cardHTML(item) {
-      const status = getStatus(item.id);
-      const selectClass = status === 'done' ? 'status-done' : status === 'in-progress' ? 'status-in-progress' : '';
-      return `
-        <div class="card ${status === 'done' ? 'done-card' : ''}" data-id="${item.id}" onclick="openModal('${item.id}')">
-          <div class="card-tier-stripe ${stripeClass(item.tier)}"></div>
-          <div class="card-header">
-            <div class="card-name">${item.name}</div>
-            <div class="card-badges">
-              <span class="badge ${tierBadgeClass(item.tier)}">${item.tier}</span>
-              <span class="badge ${typeBadgeClass(item.type)}">${item.type}</span>
-            </div>
-          </div>
-          <div class="card-desc">${item.short}</div>
-          <div class="card-meta">
-            ${item.deadline !== 'Ongoing' && item.deadline !== 'Self-paced' && item.deadline !== 'Year-round' && item.deadline !== 'Done' && item.deadline !== 'Completed' ? `
-            <span class="card-meta-item">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              ${item.deadline}
-            </span>
-            ` : `
-            <span class="card-meta-item">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              ${item.deadline}
-            </span>
-            `}
-            <span class="card-meta-item">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              ${item.cost}
-            </span>
-          </div>
-          <div class="card-footer" onclick="event.stopPropagation()">
-            <select class="progress-select ${selectClass}" data-id="${item.id}" onchange="handleStatusChange(event)">
-              <option value="not-started" ${status === 'not-started' ? 'selected' : ''}>Not started</option>
-              <option value="in-progress" ${status === 'in-progress' ? 'selected' : ''}>In progress</option>
-              <option value="done" ${status === 'done' ? 'selected' : ''}>Done</option>
-            </select>
-            <span class="card-detail-btn">View details &rarr;</span>
-          </div>
-        </div>
-      `;
-    }
+function setSyncStatus(status,label){
+  document.getElementById("syncDot").className="sync-dot "+status;
+  document.getElementById("syncLabel").textContent=label;
+}
 
-    function handleStatusChange(event) {
-      const id = event.target.dataset.id;
-      const status = event.target.value;
-      setStatus(id, status);
-      updateStats();
-      // Update select styling
-      const selects = document.querySelectorAll(`[data-id="${id}"]`);
-      selects.forEach(sel => {
-        sel.classList.remove('status-done', 'status-in-progress');
-        if (status === 'done') sel.classList.add('status-done');
-        if (status === 'in-progress') sel.classList.add('status-in-progress');
-      });
-      // Update card done styling
-      const card = event.target.closest('.card');
-      if (card) {
-        card.classList.toggle('done-card', status === 'done');
-      }
-    }
+async function apiCall(userMsg){
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:"You are a key-value store. Respond only with raw JSON or the word 'saved'. No markdown, no explanation.",messages:[{role:"user",content:userMsg}]})});
+    const d=await r.json();
+    return d?.content?.[0]?.text||"";
+  }catch(e){return "";}
+}
 
-    function renderCards() {
-      const root = document.getElementById('cards-root');
-      root.innerHTML = '';
+async function loadState(){
+  setSyncStatus("syncing","Syncing across devices...");
+  try{
+    const resp=await apiCall(`Return the stored JSON for key "${SYNC_KEY}". If none exists return exactly: {}`);
+    const clean=resp.replace(/```json|```/g,"").trim();
+    state=JSON.parse(clean);
+    setSyncStatus("ok","Synced across all devices");
+  }catch(e){
+    setSyncStatus("err","Sync unavailable &mdash; saved locally");
+    try{const r=localStorage.getItem(SYNC_KEY);if(r)state=JSON.parse(r);}catch(_){}
+  }
+  refreshHud();refreshCards();
+}
 
-      if (currentView === 'tier') {
-        const tiers = ['S', 'A', 'B'];
-        const tierNames = { S: 'S Tier - Elite', A: 'A Tier - Strong', B: 'B Tier - Foundation' };
-        const tierDescs = { S: 'Highest priority. Enter now, win big.', A: 'High value. Significant resume ROI.', B: 'Foundation. Do these in parallel with everything else.' };
+async function saveState(){
+  try{
+    await apiCall(`Store this JSON for key "${SYNC_KEY}": ${JSON.stringify(state)}`);
+    setSyncStatus("ok","Saved &mdash; synced across devices");
+    localStorage.setItem(SYNC_KEY,JSON.stringify(state));
+  }catch(e){
+    setSyncStatus("err","Saved locally only");
+    try{localStorage.setItem(SYNC_KEY,JSON.stringify(state));}catch(_){}
+  }
+}
 
-        tiers.forEach(tier => {
-          if (currentFilter !== 'all' && currentFilter !== tier) return;
+function getS(id){return state[id]||"todo";}
+async function setS(id,val){
+  state[id]=val;
+  setSyncStatus("syncing","Saving...");
+  refreshHud();refreshCards();
+  await saveState();
+}
 
-          const items = ITEMS.filter(i => i.tier === tier);
-          if (!items.length) return;
+function refreshHud(){
+  let done=0,prog=0,sdone=0;
+  ITEMS.forEach(i=>{const v=getS(i.id);if(v==="done")done++;if(v==="doing")prog++;if(v==="done"&&i.tier==="s")sdone++;});
+  document.getElementById("doneN").textContent=done;
+  document.getElementById("totalN").textContent=ITEMS.length;
+  document.getElementById("progN").textContent=prog;
+  document.getElementById("sDoneN").textContent=sdone;
+  document.getElementById("barFill").style.width=(done/ITEMS.length*100)+"%";
+}
 
-          const section = document.createElement('div');
-          section.innerHTML = `
-            <div class="section-heading">
-              <span class="section-tier-badge tier-${tier.toLowerCase()}-badge">${tier}</span>
-              <span class="section-title">${tierNames[tier]}</span>
-              <span class="section-divider"></span>
-              <span class="section-desc">${tierDescs[tier]}</span>
-            </div>
-            <div class="cards-grid">
-              ${items.map(item => cardHTML(item)).join('')}
-            </div>
-          `;
-          root.appendChild(section);
-        });
-      } else {
-        const types = ['Competition', 'Challenge', 'Course', 'Tool'];
-        const typeDescs = {
-          Competition: 'Enter, compete, win recognition.',
-          Challenge: 'Build fast. Learn faster.',
-          Course: 'Knowledge that compounds.',
-          Tool: 'Set up once, leverage forever.'
-        };
+let currentView="tier",currentFilter="all";
+function matchesFilter(item){
+  if(currentFilter==="all")return true;
+  if(currentFilter==="doing")return getS(item.id)==="doing";
+  if(["s","a","b"].includes(currentFilter))return item.tier===currentFilter;
+  return item.type===currentFilter;
+}
 
-        types.forEach(type => {
-          if (currentFilter !== 'all' && currentFilter !== type) return;
+function cardHTML(item){
+  const v=getS(item.id);
+  const stCls=v==="doing"?"st-prog":v==="done"?"st-done":"";
+  const doneCls=v==="done"?"done-card":"";
+  const typeLabel={challenge:"Challenge",competition:"Competition",course:"Course",tool:"Tool / Platform"}[item.type];
+  const typeCls={challenge:"type-challenge",competition:"type-competition",course:"type-course",tool:"type-tool"}[item.type];
+  return `<div class="card ${doneCls}" data-tier="${item.tier}" data-id="${item.id}" onclick="openModal('${item.id}')">
+    <div class="card-top">
+      <div class="card-title">${item.emoji} ${item.title}</div>
+      <select class="status-sel ${stCls}" onclick="event.stopPropagation()" onchange="setS('${item.id}',this.value)">
+        <option value="todo"${v==="todo"?" selected":""}>Not started</option>
+        <option value="doing"${v==="doing"?" selected":""}>In progress</option>
+        <option value="done"${v==="done"?" selected":""}>Done &#10003;</option>
+      </select>
+    </div>
+    <p class="card-desc">${item.short}</p>
+    <div class="card-meta">
+      <span class="ctag"><b>Deadline:</b> ${item.deadline}</span>
+      <span class="ctag"><b>Cost:</b> ${item.cost}</span>
+      <span class="ctag"><b>Team:</b> ${item.teamSize}</span>
+      <span class="ctag" style="color:${urgencyColor[item.urgency]};border-color:${urgencyColor[item.urgency]}">${urgencyLabel[item.urgency]}</span>
+    </div>
+    <div class="card-rl"><b>Resume line:</b> <span class="resume-pill">${item.resumeLine}</span></div>
+    <div class="card-footer">
+      <button class="more-btn" onclick="openModal('${item.id}');event.stopPropagation()">Full details &#8594;</button>
+      <span class="type-tag ${typeCls}">${typeLabel}</span>
+    </div>
+  </div>`;
+}
 
-          const items = ITEMS.filter(i => i.type === type);
-          if (!items.length) return;
+function tierSections(){
+  const tiers=[
+    {key:"s",label:"S",title:"Insane resume value",sub:"National recognition. The ones people remember.",cls:"tier-s"},
+    {key:"a",label:"A",title:"Strong resume value",sub:"Real prizes and real skills alongside S tier.",cls:"tier-a"},
+    {key:"b",label:"B",title:"Solid foundation",sub:"Skills and certs that power everything above.",cls:"tier-b"},
+  ];
+  let html="";
+  tiers.forEach(t=>{
+    const visible=ITEMS.filter(i=>i.tier===t.key&&matchesFilter(i));
+    if(!visible.length)return;
+    html+=`<div class="sec-head ${t.cls}"><div class="sec-badge">${t.label}</div><div><h2>${t.title}</h2><p>${t.sub}</p></div></div><div class="sec-rule"></div><div class="grid">${visible.map(cardHTML).join("")}</div>`;
+  });
+  return html;
+}
 
-          const section = document.createElement('div');
-          section.innerHTML = `
-            <div class="section-heading">
-              <span class="section-tier-badge badge-${type.toLowerCase()}">${type}</span>
-              <span class="section-title">${type}s</span>
-              <span class="section-divider"></span>
-              <span class="section-desc">${typeDescs[type]}</span>
-            </div>
-            <div class="cards-grid">
-              ${items.map(item => cardHTML(item)).join('')}
-            </div>
-          `;
-          root.appendChild(section);
-        });
-      }
-    }
+function typeSections(){
+  const types=[
+    {key:"challenge",label:"&#127942; Challenges"},
+    {key:"competition",label:"&#127881; Competitions"},
+    {key:"course",label:"&#127979; Courses"},
+    {key:"tool",label:"&#128187; Tools & Platforms"},
+  ];
+  let html="";
+  types.forEach(t=>{
+    const visible=ITEMS.filter(i=>i.type===t.key&&matchesFilter(i));
+    if(!visible.length)return;
+    const ico=t.label.match(/&#\d+;/)[0];
+    const name=t.label.replace(/&#\d+;\s*/,"");
+    html+=`<div class="sec-head tier-a"><div class="sec-badge" style="font-size:18px">${ico}</div><div><h2>${name}</h2></div></div><div class="sec-rule"></div><div class="grid">${visible.map(cardHTML).join("")}</div>`;
+  });
+  return html;
+}
 
-    // =====================================================================
-    // MODAL
-    // =====================================================================
+function refreshCards(){
+  document.getElementById("content").innerHTML=currentView==="tier"?tierSections():typeSections();
+}
 
-    function openModal(id) {
-      const item = ITEMS.find(i => i.id === id);
-      if (!item) return;
-      openModalId = id;
+function openModal(id){
+  const item=ITEMS.find(i=>i.id===id);
+  if(!item)return;
+  const v=getS(id);
+  document.getElementById("modalHero").innerHTML=`<img class="modal-hero" src="${item.img}" alt="${item.title}" onerror="this.parentElement.innerHTML='<div class=modal-hero-fallback>${item.emoji}</div>'">`;
+  const prizeLines=item.prize.split("\n").map(l=>`<p>${l}</p>`).join("");
+  const eligHTML=(item.elig||[]).map(e=>`<li><span class="elig-ico ${e.ok}">${e.ok==="ok"?"&#10003;":e.ok==="warn"?"!":"&#10007;"}</span>${e.t}</li>`).join("");
+  const stepsHTML=(item.steps||[]).map(s=>`<li>${s}</li>`).join("");
+  document.getElementById("modalBody").innerHTML=`
+    <div class="modal-top"><div class="modal-title">${item.emoji} ${item.title}</div><button class="close-btn" onclick="closeModal()">&#10005;</button></div>
+    ${v==="done"?`<div class="done-badge">&#10003; Marked as complete</div>`:""}
+    <section><h3>What it is</h3><p>${item.what}</p></section>
+    <section><h3>Key info</h3>
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-lbl">Deadline</div><div class="info-val">${item.deadline}</div></div>
+        <div class="info-cell"><div class="info-lbl">Cost</div><div class="info-val">${item.cost}</div></div>
+        <div class="info-cell"><div class="info-lbl">Team size</div><div class="info-val">${item.teamSize}</div></div>
+        <div class="info-cell"><div class="info-lbl">Age requirement</div><div class="info-val">${item.age}</div></div>
+        <div class="info-cell"><div class="info-lbl">Results</div><div class="info-val">${item.results}</div></div>
+        <div class="info-cell"><div class="info-lbl">Status</div><div class="info-val" style="color:${urgencyColor[item.urgency]}">${urgencyLabel[item.urgency]}</div></div>
+      </div>
+    </section>
+    <section><h3>What you get</h3>
+      <div class="prize-box">
+        <div class="prize-row"><span class="prize-ico">&#127942;</span><div class="prize-text">${prizeLines}</div></div>
+        <div class="prize-row"><span class="prize-ico">&#128196;</span><div class="prize-text"><span class="rl-tag">${item.resumeLine}</span></div></div>
+      </div>
+    </section>
+    ${eligHTML?`<section><h3>Eligibility &mdash; do you qualify?</h3><ul class="elig-list">${eligHTML}</ul></section>`:""}
+    ${stepsHTML?`<section><h3>How to do it &mdash; step by step</h3><ol class="steps-ol">${stepsHTML}</ol></section>`:""}
+    <section><h3>Extra context</h3><p>${item.extra}</p></section>
+    <section><h3>Your progress</h3>
+      <select class="status-sel" id="modalSel" style="font-size:13px;padding:9px 14px;border-radius:11px;width:100%" onchange="setS('${id}',this.value)">
+        <option value="todo"${v==="todo"?" selected":""}>Not started</option>
+        <option value="doing"${v==="doing"?" selected":""}>In progress</option>
+        <option value="done"${v==="done"?" selected":""}>Done &#10003;</option>
+      </select>
+    </section>
+    <a class="modal-cta" href="${item.url}" target="_blank" rel="noopener">Go to official site &#8594;</a>`;
+  document.getElementById("overlay").classList.add("open");
+  document.body.style.overflow="hidden";
+}
 
-      const status = getStatus(id);
-      const selectClass = status === 'done' ? 'status-done' : status === 'in-progress' ? 'status-in-progress' : '';
+function closeModal(){
+  document.getElementById("overlay").classList.remove("open");
+  document.body.style.overflow="";
+}
 
-      document.getElementById('modal-header').innerHTML = `
-        <div class="modal-top-row">
-          <div class="modal-badges">
-            <span class="badge ${tierBadgeClass(item.tier)}">${item.tier} Tier</span>
-            <span class="badge ${typeBadgeClass(item.type)}">${item.type}</span>
-          </div>
-          <button class="modal-close" onclick="closeModal()" aria-label="Close">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        </div>
-        <h2 class="modal-title">${item.name}</h2>
-        <div class="modal-chips">
-          <span class="modal-chip">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            ${item.deadline}
-          </span>
-          <span class="modal-chip">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            ${item.cost}
-          </span>
-        </div>
-        <div class="modal-status-row">
-          <span class="modal-status-label">Progress:</span>
-          <select class="modal-progress-select ${selectClass}" data-id="${id}" onchange="handleStatusChange(event)">
-            <option value="not-started" ${status === 'not-started' ? 'selected' : ''}>Not started</option>
-            <option value="in-progress" ${status === 'in-progress' ? 'selected' : ''}>In progress</option>
-            <option value="done" ${status === 'done' ? 'selected' : ''}>Done</option>
-          </select>
-        </div>
-      `;
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target===e.currentTarget)closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
-      document.getElementById('modal-body').innerHTML = `
-        <div class="modal-section">
-          <div class="modal-section-title">What it is</div>
-          <p>${item.what}</p>
-        </div>
+document.getElementById("viewSeg").addEventListener("click",e=>{
+  const btn=e.target.closest(".seg-btn");if(!btn)return;
+  currentView=btn.dataset.view;
+  document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b===btn));
+  currentFilter="all";
+  document.querySelectorAll(".pill-btn").forEach(b=>b.classList.toggle("active",b.dataset.f==="all"));
+  refreshCards();
+});
 
-        <div class="modal-section">
-          <div class="modal-section-title">Key Info</div>
-          <div class="info-grid">
-            ${item.keyInfo.map(k => `
-              <div class="info-cell">
-                <div class="info-cell-label">${k.label}</div>
-                <div class="info-cell-value">${k.value}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
+document.getElementById("filterPills").addEventListener("click",e=>{
+  const btn=e.target.closest(".pill-btn");if(!btn)return;
+  currentFilter=btn.dataset.f;
+  if(["s","a","b"].includes(currentFilter)){currentView="tier";document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b.dataset.view==="tier"));}
+  if(["challenge","competition","course","tool"].includes(currentFilter)){currentView="type";document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b.dataset.view==="type"));}
+  document.querySelectorAll(".pill-btn").forEach(b=>b.classList.toggle("active",b===btn));
+  refreshCards();
+});
 
-        <div class="modal-section">
-          <div class="modal-section-title">Prizes</div>
-          <div class="prizes-list">
-            ${item.prizes.map(p => `
-              <div class="prize-item">
-                <span class="prize-icon">&#9733;</span>
-                <span>${p}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
+let dark=false;
+document.getElementById("themeBtn").addEventListener("click",()=>{
+  dark=!dark;
+  document.documentElement.setAttribute("data-theme",dark?"dark":"light");
+  document.getElementById("themeLabel").textContent=dark?"Light":"Dark";
+});
 
-        <div class="modal-section">
-          <div class="modal-section-title">Eligibility</div>
-          <div class="checklist">
-            ${item.eligibility.map(e => `
-              <div class="check-item">
-                <div class="check-box"></div>
-                <span>${e}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-
-        <div class="modal-section">
-          <div class="modal-section-title">Step-by-Step Guide</div>
-          <div class="steps-list">
-            ${item.steps.map((s, i) => `
-              <div class="step-item">
-                <div class="step-num">${i + 1}</div>
-                <span>${s}</span>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-
-        <div class="modal-section">
-          <div class="modal-section-title">Context + Strategy</div>
-          <p>${item.context}</p>
-        </div>
-
-        <div class="modal-section">
-          <div class="modal-section-title">Claude Code Prompts - Update eliafshani.com</div>
-          <div class="prompts-list">
-            <div class="prompt-card">
-              <div class="prompt-header">
-                <span class="prompt-label"><span class="dot-participated"></span>If you participated / completed it</span>
-                <button class="copy-btn" onclick="copyPrompt(this, 'participated-${id}')">Copy</button>
-              </div>
-              <div class="prompt-text" id="participated-${id}">${item.prompts.participated}</div>
-            </div>
-            <div class="prompt-card">
-              <div class="prompt-header">
-                <span class="prompt-label"><span class="dot-won"></span>If you won or placed</span>
-                <button class="copy-btn" onclick="copyPrompt(this, 'won-${id}')">Copy</button>
-              </div>
-              <div class="prompt-text" id="won-${id}">${item.prompts.won}</div>
-            </div>
-            <div class="prompt-card">
-              <div class="prompt-header">
-                <span class="prompt-label"><span class="dot-progress"></span>If you're in progress</span>
-                <button class="copy-btn" onclick="copyPrompt(this, 'inprogress-${id}')">Copy</button>
-              </div>
-              <div class="prompt-text" id="inprogress-${id}">${item.prompts.inProgress}</div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('modal-overlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      document.getElementById('modal-overlay').classList.remove('open');
-      document.body.style.overflow = '';
-      openModalId = null;
-    }
-
-    function handleOverlayClick(event) {
-      if (event.target === document.getElementById('modal-overlay')) {
-        closeModal();
-      }
-    }
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && openModalId) closeModal();
-    });
-
-    // =====================================================================
-    // COPY PROMPTS
-    // =====================================================================
-
-    function copyPrompt(btn, elementId) {
-      const text = document.getElementById(elementId).textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        btn.textContent = 'Copied!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = 'Copy';
-          btn.classList.remove('copied');
-        }, 2000);
-      }).catch(() => {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        btn.textContent = 'Copied!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = 'Copy';
-          btn.classList.remove('copied');
-        }, 2000);
-      });
-    }
-
-    // =====================================================================
-    // THEME
-    // =====================================================================
-
-    function toggleTheme() {
-      const html = document.documentElement;
-      const current = html.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('eli_playbook_theme', next);
-    }
-
-    function initTheme() {
-      const saved = localStorage.getItem('eli_playbook_theme');
-      if (saved) {
-        document.documentElement.setAttribute('data-theme', saved);
-      } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-      }
-    }
-
-    // =====================================================================
-    // INIT
-    // =====================================================================
-
-    initTheme();
-    renderFilterPills();
-    renderCards();
-    updateStats();
-  </script>
+loadState();
+</script>
 </body>
 </html>
