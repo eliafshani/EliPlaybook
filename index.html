@@ -144,6 +144,19 @@ h1 .gold{color:var(--s)}
 .modal-cta:hover{opacity:.85}
 .done-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;background:var(--a-s);color:var(--done);padding:5px 10px;border-radius:8px;margin-bottom:14px}
 .hidden{display:none!important}
+.sync-share-btn{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;border:1px solid var(--line);background:var(--panel);color:var(--sub);padding:4px 10px;border-radius:7px;cursor:pointer;transition:.15s;margin-left:auto}
+.sync-share-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.sync-share-btn.copied{background:var(--done);color:#fff;border-color:var(--done)}
+.controls-row1{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.search-wrap{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:7px 12px;flex:1;min-width:160px;max-width:280px;transition:.18s}
+.search-wrap:focus-within{border-color:var(--accent)}
+.search-ico{font-size:13px;color:var(--sub);flex-shrink:0}
+.search-input{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--ink);background:none;border:none;outline:none;flex:1;min-width:0}
+.search-input::placeholder{color:var(--sub)}
+.search-clear{font-size:11px;color:var(--sub);background:none;border:none;cursor:pointer;padding:0;line-height:1}
+.search-clear:hover{color:var(--ink)}
+.no-results{text-align:center;padding:48px 20px;color:var(--sub);font-size:14px}
+.no-results b{display:block;font-size:18px;color:var(--ink);margin-bottom:6px}
 .prompt-card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:8px}
 .prompt-header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line)}
 .prompt-lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--sub);display:flex;align-items:center;gap:7px}
@@ -163,10 +176,11 @@ h1 .gold{color:var(--s)}
   <button class="icon-btn" id="themeBtn">&#9790; <span id="themeLabel">Dark</span></button>
 </div>
 <h1>The resume <span class="gold">tier list.</span></h1>
-<p class="hero-sub">Every program ranked by impact. Click any card for full details. Progress syncs across all your devices automatically.</p>
+<p class="hero-sub">Every program ranked by impact. Click any card for full details. Progress saves automatically.</p>
 <div class="sync-bar" id="syncBar">
   <div class="sync-dot syncing" id="syncDot"></div>
-  <span id="syncLabel">Connecting...</span>
+  <span id="syncLabel">Loading...</span>
+  <button class="sync-share-btn" onclick="exportCode()" title="Copy a link that includes your progress — open on any device">&#128279; Copy link</button>
 </div>
 <div class="strip">
   <span class="strip-title">Your edge &#128293;</span>
@@ -195,9 +209,17 @@ h1 .gold{color:var(--s)}
   </div>
 </div>
 <div class="controls">
-  <div class="seg" id="viewSeg">
-    <button class="seg-btn active" data-view="tier">By Tier</button>
-    <button class="seg-btn" data-view="type">By Type</button>
+  <div class="controls-row1">
+    <div class="seg" id="viewSeg">
+      <button class="seg-btn active" data-view="tier">By Tier</button>
+      <button class="seg-btn" data-view="type">By Type</button>
+      <button class="seg-btn" data-view="deadline">By Deadline</button>
+    </div>
+    <div class="search-wrap">
+      <span class="search-ico">&#128269;</span>
+      <input class="search-input" id="searchInput" type="text" placeholder="Search programs..." oninput="onSearch(this.value)">
+      <button class="search-clear hidden" id="searchClear" onclick="clearSearch()">&#10005;</button>
+    </div>
   </div>
   <div class="pills" id="filterPills">
     <button class="pill-btn active" data-f="all">All</button>
@@ -209,6 +231,7 @@ h1 .gold{color:var(--s)}
     <button class="pill-btn" data-f="course">&#127979; Course</button>
     <button class="pill-btn" data-f="tool">&#128187; Tool</button>
     <button class="pill-btn" data-f="doing">In Progress</button>
+    <button class="pill-btn" data-f="open">Open Now</button>
   </div>
 </div>
 <div id="content"></div>
@@ -497,6 +520,7 @@ const ITEMS = [
 
 const urgencyColor={open:"var(--a)",prep:"var(--prog)",later:"var(--b)"};
 const urgencyLabel={open:"Open now",prep:"Prep now",later:"Later"};
+const urgencyRank={open:0,prep:1,later:2};
 const SYNC_KEY="eli-playbook-v5";
 let state={};
 
@@ -505,45 +529,56 @@ function setSyncStatus(status,label){
   document.getElementById("syncLabel").textContent=label;
 }
 
-async function apiCall(userMsg){
+function loadState(){
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:"You are a key-value store. Respond only with raw JSON or the word 'saved'. No markdown, no explanation.",messages:[{role:"user",content:userMsg}]})});
-    const d=await r.json();
-    return d?.content?.[0]?.text||"";
-  }catch(e){return "";}
-}
-
-async function loadState(){
-  setSyncStatus("syncing","Syncing across devices...");
-  try{
-    const resp=await apiCall(`Return the stored JSON for key "${SYNC_KEY}". If none exists return exactly: {}`);
-    const clean=resp.replace(/```json|```/g,"").trim();
-    state=JSON.parse(clean);
-    setSyncStatus("ok","Synced across all devices");
+    const hash=location.hash;
+    if(hash.startsWith("#state=")){
+      const imported=JSON.parse(atob(decodeURIComponent(hash.slice(7))));
+      state=imported;
+      history.replaceState(null,"",location.pathname+location.search);
+      localStorage.setItem(SYNC_KEY,JSON.stringify(state));
+      setSyncStatus("ok","Imported — progress synced");
+    } else {
+      const r=localStorage.getItem(SYNC_KEY);
+      if(r)state=JSON.parse(r);
+      setSyncStatus("ok","Saved locally");
+    }
   }catch(e){
-    setSyncStatus("err","Sync unavailable &mdash; saved locally");
-    try{const r=localStorage.getItem(SYNC_KEY);if(r)state=JSON.parse(r);}catch(_){}
+    setSyncStatus("err","Could not load saved state");
   }
   refreshHud();refreshCards();
 }
 
-async function saveState(){
+function saveState(){
   try{
-    await apiCall(`Store this JSON for key "${SYNC_KEY}": ${JSON.stringify(state)}`);
-    setSyncStatus("ok","Saved &mdash; synced across devices");
     localStorage.setItem(SYNC_KEY,JSON.stringify(state));
+    setSyncStatus("ok","Saved");
   }catch(e){
-    setSyncStatus("err","Saved locally only");
-    try{localStorage.setItem(SYNC_KEY,JSON.stringify(state));}catch(_){}
+    setSyncStatus("err","Could not save");
   }
+}
+
+function exportCode(){
+  const encoded=encodeURIComponent(btoa(JSON.stringify(state)));
+  const url=location.origin+location.pathname+"#state="+encoded;
+  const btn=document.querySelector(".sync-share-btn");
+  navigator.clipboard.writeText(url).then(()=>{
+    btn.textContent="✓ Copied!";btn.classList.add("copied");
+    setSyncStatus("ok","Link copied — open on any device to import");
+    setTimeout(()=>{btn.textContent="🔗 Copy link";btn.classList.remove("copied");setSyncStatus("ok","Saved locally");},3000);
+  }).catch(()=>{
+    const t=document.createElement("textarea");t.value=url;t.style.cssText="position:fixed;opacity:0";
+    document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);
+    btn.textContent="✓ Copied!";btn.classList.add("copied");
+    setTimeout(()=>{btn.textContent="🔗 Copy link";btn.classList.remove("copied");},3000);
+  });
 }
 
 function getS(id){return state[id]||"todo";}
-async function setS(id,val){
+function setS(id,val){
   state[id]=val;
-  setSyncStatus("syncing","Saving...");
   refreshHud();refreshCards();
-  await saveState();
+  saveState();
 }
 
 function refreshHud(){
@@ -556,12 +591,38 @@ function refreshHud(){
   document.getElementById("barFill").style.width=(done/ITEMS.length*100)+"%";
 }
 
-let currentView="tier",currentFilter="all";
+let currentView="tier",currentFilter="all",currentSearch="";
+
 function matchesFilter(item){
+  if(currentSearch){
+    const q=currentSearch.toLowerCase();
+    if(!(item.title.toLowerCase().includes(q)||item.short.toLowerCase().includes(q)||(item.what&&item.what.toLowerCase().includes(q))))return false;
+  }
   if(currentFilter==="all")return true;
   if(currentFilter==="doing")return getS(item.id)==="doing";
+  if(currentFilter==="open")return item.urgency==="open";
   if(["s","a","b"].includes(currentFilter))return item.tier===currentFilter;
   return item.type===currentFilter;
+}
+
+function sortedItems(items){
+  return [...items].sort((a,b)=>{
+    const ur=urgencyRank[a.urgency]-urgencyRank[b.urgency];
+    if(ur!==0)return ur;
+    const tr=["s","a","b"].indexOf(a.tier)-["s","a","b"].indexOf(b.tier);
+    return tr;
+  });
+}
+
+function onSearch(val){
+  currentSearch=val.trim();
+  document.getElementById("searchClear").classList.toggle("hidden",!currentSearch);
+  refreshCards();
+}
+
+function clearSearch(){
+  document.getElementById("searchInput").value="";
+  onSearch("");
 }
 
 function cardHTML(item){
@@ -594,6 +655,8 @@ function cardHTML(item){
   </div>`;
 }
 
+function noResults(){return`<div class="no-results"><b>No results</b>Try a different search or filter</div>`;}
+
 function tierSections(){
   const tiers=[
     {key:"s",label:"S",title:"Insane resume value",sub:"National recognition. The ones people remember.",cls:"tier-s"},
@@ -602,11 +665,11 @@ function tierSections(){
   ];
   let html="";
   tiers.forEach(t=>{
-    const visible=ITEMS.filter(i=>i.tier===t.key&&matchesFilter(i));
+    const visible=sortedItems(ITEMS.filter(i=>i.tier===t.key&&matchesFilter(i)));
     if(!visible.length)return;
     html+=`<div class="sec-head ${t.cls}"><div class="sec-badge">${t.label}</div><div><h2>${t.title}</h2><p>${t.sub}</p></div></div><div class="sec-rule"></div><div class="grid">${visible.map(cardHTML).join("")}</div>`;
   });
-  return html;
+  return html||noResults();
 }
 
 function typeSections(){
@@ -618,17 +681,35 @@ function typeSections(){
   ];
   let html="";
   types.forEach(t=>{
-    const visible=ITEMS.filter(i=>i.type===t.key&&matchesFilter(i));
+    const visible=sortedItems(ITEMS.filter(i=>i.type===t.key&&matchesFilter(i)));
     if(!visible.length)return;
     const ico=t.label.match(/&#\d+;/)[0];
     const name=t.label.replace(/&#\d+;\s*/,"");
     html+=`<div class="sec-head tier-a"><div class="sec-badge" style="font-size:18px">${ico}</div><div><h2>${name}</h2></div></div><div class="sec-rule"></div><div class="grid">${visible.map(cardHTML).join("")}</div>`;
   });
-  return html;
+  return html||noResults();
+}
+
+function deadlineSections(){
+  const groups=[
+    {key:"open",label:"&#9989; Open now",sub:"Register or start today.",cls:"tier-a"},
+    {key:"prep",label:"&#9203; Prep now",sub:"Deadline coming — start preparing.",cls:"tier-s"},
+    {key:"later",label:"&#128336; Later",sub:"On the radar, not urgent yet.",cls:"tier-b"},
+  ];
+  let html="";
+  groups.forEach(g=>{
+    const visible=ITEMS.filter(i=>i.urgency===g.key&&matchesFilter(i)).sort((a,b)=>["s","a","b"].indexOf(a.tier)-["s","a","b"].indexOf(b.tier));
+    if(!visible.length)return;
+    const ico=g.label.match(/&#\d+;/)[0];
+    const name=g.label.replace(/&#\d+;\s*/,"");
+    html+=`<div class="sec-head ${g.cls}"><div class="sec-badge" style="font-size:18px">${ico}</div><div><h2>${name}</h2><p>${g.sub}</p></div></div><div class="sec-rule"></div><div class="grid">${visible.map(cardHTML).join("")}</div>`;
+  });
+  return html||noResults();
 }
 
 function refreshCards(){
-  document.getElementById("content").innerHTML=currentView==="tier"?tierSections():typeSections();
+  const v=currentView;
+  document.getElementById("content").innerHTML=v==="tier"?tierSections():v==="type"?typeSections():deadlineSections();
 }
 
 function openModal(id){
@@ -696,9 +777,12 @@ document.getElementById("viewSeg").addEventListener("click",e=>{
 
 document.getElementById("filterPills").addEventListener("click",e=>{
   const btn=e.target.closest(".pill-btn");if(!btn)return;
-  currentFilter=btn.dataset.f;
-  if(["s","a","b"].includes(currentFilter)){currentView="tier";document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b.dataset.view==="tier"));}
-  if(["challenge","competition","course","tool"].includes(currentFilter)){currentView="type";document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b.dataset.view==="type"));}
+  const f=btn.dataset.f;
+  if(currentFilter===f){currentFilter="all";document.querySelectorAll(".pill-btn").forEach(b=>b.classList.toggle("active",b.dataset.f==="all"));refreshCards();return;}
+  currentFilter=f;
+  if(["s","a","b"].includes(f)){currentView="tier";document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b.dataset.view==="tier"));}
+  if(["challenge","competition","course","tool"].includes(f)){currentView="type";document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b.dataset.view==="type"));}
+  if(f==="open"){currentView="deadline";document.querySelectorAll(".seg-btn").forEach(b=>b.classList.toggle("active",b.dataset.view==="deadline"));}
   document.querySelectorAll(".pill-btn").forEach(b=>b.classList.toggle("active",b===btn));
   refreshCards();
 });
