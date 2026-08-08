@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-[data-theme="light"]{
+:root{
   --bg:#F4F5FA;--bg2:#ECEDF5;--panel:#FFFFFF;--panel2:#F0F1F8;
   --ink:#141620;--sub:#6B7280;--line:#E2E4EE;
   --accent:#3B49DF;--accent-s:rgba(59,73,223,.1);
@@ -17,15 +17,6 @@
   --b:#1D4ED8;--b-s:#EFF6FF;--done:#047857;--prog:#C27318;
   --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05);
   --shadow-lg:0 8px 32px rgba(0,0,0,.12);
-}
-[data-theme="dark"]{
-  --bg:#0E1016;--bg2:#13161F;--panel:#171A23;--panel2:#1D212C;
-  --ink:#F0F2F7;--sub:#8A91A3;--line:#252A38;
-  --accent:#6070FF;--accent-s:rgba(96,112,255,.14);
-  --s:#FFB224;--s-s:rgba(255,178,36,.13);--a:#34D399;--a-s:rgba(52,211,153,.13);
-  --b:#60A5FA;--b-s:rgba(96,165,250,.13);--done:#34D399;--prog:#FFB224;
-  --shadow:0 1px 4px rgba(0,0,0,.2),0 4px 20px rgba(0,0,0,.25);
-  --shadow-lg:0 12px 40px rgba(0,0,0,.4);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;padding:28px 20px 100px;transition:background .25s,color .15s}
@@ -228,7 +219,6 @@ function gateSubmit(){
 <div class="wrap">
 <div class="topbar">
   <div class="eyebrow">Eli's Builder Playbook &mdash; 9th grade, Milken LA</div>
-  <button class="icon-btn" id="themeBtn">&#9790; <span id="themeLabel">Dark</span></button>
 </div>
 <h1>The resume <span class="gold">tier list.</span></h1>
 <p class="hero-sub">Every program ranked by impact. Click any card for full details. Progress saves automatically.</p>
@@ -870,12 +860,6 @@ document.getElementById("filterPills").addEventListener("click",e=>{
   refreshCards();
 });
 
-let dark=false;
-document.getElementById("themeBtn").addEventListener("click",()=>{
-  dark=!dark;
-  document.documentElement.setAttribute("data-theme",dark?"dark":"light");
-  document.getElementById("themeLabel").textContent=dark?"Light":"Dark";
-});
 
 function copyPrompt(btn,id){
   const text=document.getElementById(id).textContent;
